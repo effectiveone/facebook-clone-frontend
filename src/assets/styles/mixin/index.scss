@@ -1,0 +1,156 @@
+/* Mixin for box shadow */
+@mixin box-shadow($shadow-1, $shadow-2, $shadow-inset) {
+    box-shadow: 0 12px 28px 0 $shadow-1, 0 2px 4px 0 $shadow-2, inset 0 0 0 1px $shadow-inset;
+  }
+  
+  /* Mixin for background color */
+  @mixin background-color($bg-primary, $bg-secondary, $bg-third, $bg-forth) {
+    background: $bg-primary;
+    &.add_pics_inside1, &.postError {
+      background: $bg-secondary;
+    }
+    &.box_privacy {
+      background: $bg-third;
+    }
+    &.add_pics_wrap {
+      border: 1px solid $bg-third;
+      color: var(--color-primary);
+    }
+    &.add_pics_inside2 {
+      background: $bg-secondary;
+      border-radius: 10px;
+      padding: 10px;
+    }
+    &.addphone_btn {
+      background: $bg-third;
+    }
+    &.no_bg {
+      background: $bg-secondary;
+    }
+    &.bgHandler {
+      background: $bg-forth;
+    }
+  }
+  
+  /* Mixin for border radius */
+  @mixin border-radius($radius) {
+    border-radius: $radius;
+    &.box_header, &.add_pics_wrap {
+      border-radius: $radius  $radius 0 0;
+    }
+    &.postBox {
+      border-radius: $radius;
+    }
+    &.add_pics_inside1 {
+      border-radius: $radius;
+    }
+    &.post_submit {
+      border-radius: $radius;
+    }
+    &.small_white_circle, &.add_circle {
+      border-radius: 50%;
+    }
+    &.add_pics_inside2 {
+      border-radius: $radius;
+    }
+  }
+  
+  /* Mixin for font size */
+  @mixin font-size($size) {
+    font-size: $size;
+    &.box_header {
+      font-size: $size + 6px;
+    }
+    &.box_profile_name {
+      font-size: $size - 2px;
+    }
+    &.box_privacy {
+      font-size: $size - 4px;
+    }
+    &.post_submit {
+      font-size: $size;
+    }
+    &.mobile_text {
+      font-size: $size - 2px;
+    }
+  }
+  
+  /* Mixin for font weight */
+  @mixin font-weight($weight) {
+    font-weight: $weight;
+    &.box_header, &.box_profile_name, &.post_submit {
+      font-weight: $weight + 100;
+    }
+  }
+  
+  /* Mixin for padding */
+  @mixin padding($padding) {
+    padding: $padding;
+    &.box_header, &.post_input, &.add_pics_wrap {
+      padding: $padding + 1px;
+    }
+    &.box_profile {
+      padding: $padding + 2px $padding + 2px $padding - 12px $padding + 2px;
+    }
+    &.box_privacy {
+      padding: $padding + 1px $padding + 4px $padding + 2px $padding + 4px;
+    }
+    &.post_emojis_wrap {
+      padding: $padding + 5px $padding + 10px;
+    }
+    &.addtoyourpost {
+      padding: $padding;
+    }
+    &.postError {
+      padding: $padding;
+      .postError_error {
+        width: 75%;
+        font-weight: 600;
+      }
+    }
+
+    /* Media Queries */
+    @media (max-width: $max-width) {
+    .rlmove {
+    right: $mobile-rlmove-right;
+    }
+    }
+    
+    @media (max-width: $max-width-small) {
+    .postBox {
+    width: $postBox-width-small;
+    }
+    
+    .post_backgrounds {
+        width: $postBg-width-small;
+        overflow-x: auto;
+      }
+      .post_backgrounds img {
+        width: $postBg-img-width-small;
+        height: $postBg-img-height-small;
+      }
+    }
+
+    @media (max-width: $max-width-extra-small) {
+    .preview_actions {
+    flex-direction: column;
+    gap: $preview-actions-gap;
+    }
+    .mobile_text {
+    width: $mobile-text-width;
+    }
+    }
+    
+    @media (max-width: $max-width-tiny) {
+    .post_input {
+    font-size: $post-input-font-size-tiny;
+    }
+    .addtoyourpost {
+    justify-content: $addtoyourpost-justify-content-tiny;
+    }
+    .addto_text {
+    display: none;
+    }
+    }
+    }      
+  
