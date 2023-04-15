@@ -4,10 +4,17 @@ import React from "react";
 import "./style.css";
 import { useFriends } from "../../../../hooks/useFriends";
 export default function RightHome() {
-  const {
-    data: { friends: user },
-  } = useFriends();
-  console.log("user", user);
+  const { data, friends } = useFriends();
+
+  const checkOnlineUsers = (friends = [], onlineUsers = []) => {
+    friends?.forEach((f) => {
+      const isUserOnline = onlineUsers.find((user) => user.userId === f._id);
+      f.isOnline = isUserOnline ? true : false;
+    });
+
+    return friends;
+  };
+
   const color = "#65676b";
   return (
     <div className="right_home">
@@ -29,11 +36,13 @@ export default function RightHome() {
           </div>
         </div>
         <div className="contacts_list">
-          {user?.map((cur, i) => (
-            <React.Fragment key={i}>
-              <Contact user={cur} />
-            </React.Fragment>
-          ))}
+          {checkOnlineUsers(data.friends, friends.onlineUsers)?.map(
+            (cur, i) => (
+              <React.Fragment key={i}>
+                <Contact user={cur} isOnline={cur.isOnline} />
+              </React.Fragment>
+            )
+          )}
         </div>
       </div>
     </div>

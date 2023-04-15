@@ -8,6 +8,7 @@ export const useFriends = () => {
   const { type } = useParams();
 
   const { loading, error, data } = useSelector((state) => state.friends);
+  const { friends } = useSelector((state) => state);
 
   const user = useSelector((state) => state.user);
 
@@ -15,5 +16,5 @@ export const useFriends = () => {
     dispatch(getFriendsPageInfos(user.token));
   }, [dispatch, user.token]);
 
-  return { loading, error, type, data };
+  return { loading, error, type, data, friends };
 };

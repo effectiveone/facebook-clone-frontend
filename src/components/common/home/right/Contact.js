@@ -1,7 +1,9 @@
-export default function Contact({ user }) {
-  console.log("co tu sie odpierdala", user);
+import OnlineIndicator from "./OnlineIndicator";
+
+export default function Contact({ user, isOnline }) {
   return (
     <div className="contact hover3">
+      {isOnline && <OnlineIndicator />}
       <div className="contact_img">
         <img src={user?.picture} alt="" />
       </div>
