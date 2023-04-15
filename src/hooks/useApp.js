@@ -7,8 +7,9 @@ const useApp = () => {
   const { user, darkTheme, posts } = useSelector((state) => ({ ...state }));
   const { loading } = posts;
   const dispatch = useDispatch();
-
+  const token = user?.token;
   const fetchAllPosts = useCallback(() => {
+    localStorage.setItem("user", JSON.stringify({ token }));
     dispatch(getAllPosts(user?.token));
   }, [dispatch, user?.token]);
 

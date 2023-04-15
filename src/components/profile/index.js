@@ -42,6 +42,8 @@ export default function Profile() {
     dispatch,
   } = useProfileContext();
 
+  // console.log("useProfileContext", profile);
+
   const { posts } = useAppContext();
 
   return (

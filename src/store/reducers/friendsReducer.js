@@ -5,11 +5,15 @@ import {
   FRIENDS_SUCCESS,
   FRIENDS_ERROR,
 } from "../types/friendsTypes";
+import { friendsActions } from "../actions/friendsActions";
 
 const initialState = {
   loading: false,
   data: {},
   error: "",
+  friends: [],
+  pendingFriendsInvitations: [],
+  onlineUsers: [],
 };
 
 export default function friendsReducer(state = initialState, action) {
@@ -25,7 +29,21 @@ export default function friendsReducer(state = initialState, action) {
       };
     case FRIENDS_ERROR:
       return { ...state, loading: false, error: action.payload };
-
+    case friendsActions.SET_PENDING_FRIENDS_INVITATIONS:
+      return {
+        ...state,
+        pendingFriendsInvitations: action.pendingFriendsInvitations,
+      };
+    case friendsActions.SET_FRIENDS:
+      return {
+        ...state,
+        friends: action.friends,
+      };
+    case friendsActions.SET_ONLINE_USERS:
+      return {
+        ...state,
+        onlineUsers: action.onlineUsers,
+      };
     default:
       return state;
   }

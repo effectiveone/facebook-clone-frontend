@@ -14,32 +14,15 @@ export const getProfile =
           },
         }
       );
-      if (res.data.ok === false) {
-        navigate("/profile");
-      } else {
-        try {
-          const images = await axios.post(
-            `${process.env.REACT_APP_BACKEND_URL}/listImages`,
-            { path, sort, max },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          setPhotos(images.data);
-        } catch (error) {
-          console.log(error);
-        }
-        dispatch({
-          type: types.PROFILE_SUCCESS,
-          payload: res.data,
-        });
-      }
+
+      dispatch({
+        type: types.PROFILE_SUCCESS,
+        payload: res.data,
+      });
     } catch (error) {
       dispatch({
         type: types.PROFILE_ERROR,
-        payload: error.response.data.message,
+        payload: error.response?.data?.message || "Something went wrong.",
       });
     }
   };

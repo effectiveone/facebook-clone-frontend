@@ -1,16 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import useClickOutside from "../../utils/clickOutside";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { follow, unfollow, unfriend } from "../../store/actions/userActions";
 import {
-  acceptRequest,
-  addFriend,
-  cancelRequest,
-  deleteRequest,
-  follow,
-  unfollow,
-  unfriend,
-} from "../../store/actions/userActions";
-export default function Friendship({ friendshipp, profileid }) {
+  acceptFriendInvitation,
+  rejectFriendInvitation,
+  sendFriendInvitation,
+} from "../../store/actions/friendsActions";
+import { useProfileContext } from "../../context/useProfileContext";
+
+export default function Friendship({ friendshipp }) {
+  const { profile } = useProfileContext();
+  const profileid = profile.profile._id;
   const [friendship, setFriendship] = useState(friendshipp);
   useEffect(() => {
     setFriendship(friendshipp);
@@ -22,22 +23,35 @@ export default function Friendship({ friendshipp, profileid }) {
   useClickOutside(menu, () => setFriendsMenu(false));
   useClickOutside(menu1, () => setRespondMenu(false));
   const { user } = useSelector((state) => ({ ...state }));
+  const dispatch = useDispatch();
+
   const addFriendHandler = async () => {
     setFriendship({ ...friendship, requestSent: true, following: true });
-    await addFriend(profileid, user.token);
+    await dispatch(
+      sendFriendInvitation({
+        targetMailAddress: profile.profile.email,
+        token: user.token,
+      })
+    );
   };
+
   const cancelRequestHandler = async () => {
     setFriendship({ ...friendship, requestSent: false, following: false });
-    await cancelRequest(profileid, user.token);
+    await dispatch(
+      rejectFriendInvitation({ profileId: profileid, token: user.token })
+    );
   };
+
   const followHandler = async () => {
     setFriendship({ ...friendship, following: true });
-    await follow(profileid, user.token);
+    await dispatch(follow(profileid, user.token));
   };
+
   const unfollowHandler = async () => {
     setFriendship({ ...friendship, following: false });
-    await unfollow(profileid, user.token);
+    await dispatch(unfollow(profileid, user.token));
   };
+
   const acceptRequestHanlder = async () => {
     setFriendship({
       ...friendship,
@@ -46,8 +60,11 @@ export default function Friendship({ friendshipp, profileid }) {
       requestSent: false,
       requestReceived: false,
     });
-    await acceptRequest(profileid, user.token);
+    await dispatch(
+      acceptFriendInvitation({ id: profileid, token: user.token })
+    );
   };
+
   const unfriendHandler = async () => {
     setFriendship({
       ...friendship,
@@ -56,8 +73,9 @@ export default function Friendship({ friendshipp, profileid }) {
       requestSent: false,
       requestReceived: false,
     });
-    await unfriend(profileid, user.token);
+    await dispatch(unfriend(profileid, user.token));
   };
+
   const deleteRequestHanlder = async () => {
     setFriendship({
       ...friendship,
@@ -66,7 +84,9 @@ export default function Friendship({ friendshipp, profileid }) {
       requestSent: false,
       requestReceived: false,
     });
-    await deleteRequest(profileid, user.token);
+    await dispatch(
+      rejectFriendInvitation({ profileId: profileid, token: user.token })
+    );
   };
 
   return (

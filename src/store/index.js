@@ -6,6 +6,8 @@ import { profileReducer } from "./reducers/profileReducer";
 import friendsReducer from "./reducers/friendsReducer";
 import { postsReducer } from "./reducers/postsReducer";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { chatReducer } from "./reducers/chatReducer";
+import { roomReducer } from "./reducers/roomReducer";
 
 const rootReducer = combineReducers({
   posts: postsReducer,
@@ -13,6 +15,8 @@ const rootReducer = combineReducers({
   friends: friendsReducer,
   user: userReducer,
   darkTheme: themeReducer,
+  chat: chatReducer,
+  room: roomReducer,
 });
 
 const composeEnhancers = composeWithDevTools({});

@@ -6,7 +6,7 @@ import { useFriendsContext } from "../../context/useFriendsContext";
 
 export default function Friends() {
   const { type, data, getData } = useFriendsContext();
-
+  console.log("data", data);
   return (
     <>
       <Header page="friends" />
@@ -116,11 +116,11 @@ export default function Friends() {
                 )}
               </div>
               <div className="flex_wrap">
-                {data.requests &&
-                  data.requests.map((user) => (
+                {data.receivedRequests &&
+                  data.receivedRequests.map((user) => (
                     <Card
-                      userr={user}
-                      key={user._id}
+                      userr={user.senderId}
+                      key={user.senderId._id}
                       type="request"
                       getData={getData}
                     />
@@ -142,8 +142,8 @@ export default function Friends() {
                 {data.sentRequests &&
                   data.sentRequests.map((user) => (
                     <Card
-                      userr={user}
-                      key={user._id}
+                      userr={user.receiverId}
+                      key={user.receiverId._id}
                       type="sent"
                       getData={getData}
                     />

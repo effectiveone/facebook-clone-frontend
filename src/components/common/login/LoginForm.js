@@ -7,10 +7,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import DotLoader from "react-spinners/DotLoader";
 
 const loginInfos = {
   email: "",
@@ -59,20 +56,15 @@ export default function LoginForm({ setVisible }) {
   };
 
   return (
-    <Box className="login_wrap" display="flex" flexDirection="column">
-      <Box
-        className="login_1"
-        display="flex"
-        alignItems="center"
-        marginBottom="20px"
-      >
+    <div className="login_wrap">
+      <div className="login_1">
         <img src="../../icons/facebook.svg" alt="" />
-        <Typography>
+        <span>
           Facebook helps you connect and share with the people in your life.
-        </Typography>
-      </Box>
-      <Box className="login_2" display="flex" flexDirection="column">
-        <Box className="login_2_wrap" marginBottom="20px">
+        </span>
+      </div>
+      <div className="login_2">
+        <div className="login_2_wrap">
           <Formik
             enableReinitialize
             initialValues={{
@@ -99,50 +91,30 @@ export default function LoginForm({ setVisible }) {
                   onChange={handleLoginChange}
                   bottom
                 />
-                <Button type="submit" variant="contained" color="primary">
+                <button type="submit" className="blue_btn">
                   Log In
-                </Button>
+                </button>
               </Form>
             )}
           </Formik>
           <Link to="/reset" className="forgot_password">
             Forgotten password?
           </Link>
-          <Box display="flex" alignItems="center" marginTop="10px">
-            <CircularProgress
-              color="primary"
-              size={30}
-              thickness={5}
-              style={{ visibility: loading ? "visible" : "hidden" }}
-            />
-            {error && (
-              <Typography className="error_text" color="error">
-                {error}
-              </Typography>
-            )}
-          </Box>
-          <Box
-            className="sign_splitter"
-            height="1px"
-            bgcolor="#dadde1"
-            marginBottom="20px"
-            marginTop="20px"
-          ></Box>
-          <Button
-            variant="contained"
-            color="primary"
-            className="open_signup"
+          <DotLoader color="#1876f2" loading={loading} size={30} />
+
+          {error && <div className="error_text">{error}</div>}
+          <div className="sign_splitter"></div>
+          <button
+            className="blue_btn open_signup"
             onClick={() => setVisible(true)}
           >
             Create Account
-          </Button>
-        </Box>
+          </button>
+        </div>
         <Link to="/" className="sign_extra">
-          <Typography component="span" variant="body1">
-            <b>Create a Page</b> for a celebrity, brand or business.
-          </Typography>
+          <b>Create a Page</b> for a celebrity, brand or business.
         </Link>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }

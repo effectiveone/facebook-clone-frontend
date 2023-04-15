@@ -1,13 +1,4 @@
-import {
-  useMediaQuery, // Keep this import from Material-UI
-  Box,
-  Grid,
-  Paper,
-  Select,
-  MenuItem,
-  Typography,
-} from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles"; // Add this import
+import { useMediaQuery } from "react-responsive";
 
 export default function DateOfBirthSelect({
   bDay,
@@ -19,56 +10,53 @@ export default function DateOfBirthSelect({
   handleRegisterChange,
   dateError,
 }) {
-  const theme = useTheme(); // Add this line
-  const view3 = useMediaQuery(theme.breakpoints.up("lg")); // Update this line
-
+  const view1 = useMediaQuery({
+    query: "(min-width: 539px)",
+  });
+  const view2 = useMediaQuery({
+    query: "(min-width: 850px)",
+  });
+  const view3 = useMediaQuery({
+    query: "(min-width: 1170px)",
+  });
   return (
-    <Box className="reg_grid" marginBottom={dateError && !view3 ? "90px" : "0"}>
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <Select name="bDay" value={bDay} onChange={handleRegisterChange}>
-            {days.map((day, i) => (
-              <MenuItem value={day} key={i}>
-                {day}
-              </MenuItem>
-            ))}
-          </Select>
-        </Grid>
-        <Grid item xs={4}>
-          <Select name="bMonth" value={bMonth} onChange={handleRegisterChange}>
-            {months.map((month, i) => (
-              <MenuItem value={month} key={i}>
-                {month}
-              </MenuItem>
-            ))}
-          </Select>
-        </Grid>
-        <Grid item xs={4}>
-          <Select name="bYear" value={bYear} onChange={handleRegisterChange}>
-            {years.map((year, i) => (
-              <MenuItem value={year} key={i}>
-                {year}
-              </MenuItem>
-            ))}
-          </Select>
-        </Grid>
-      </Grid>
+    <div
+      className="reg_grid"
+      style={{ marginBottom: `${dateError && !view3 ? "90px" : "0"}` }}
+    >
+      <select name="bDay" value={bDay} onChange={handleRegisterChange}>
+        {days.map((day, i) => (
+          <option value={day} key={i}>
+            {day}
+          </option>
+        ))}
+      </select>
+      <select name="bMonth" value={bMonth} onChange={handleRegisterChange}>
+        {months.map((month, i) => (
+          <option value={month} key={i}>
+            {month}
+          </option>
+        ))}
+      </select>
+      <select name="bYear" value={bYear} onChange={handleRegisterChange}>
+        {years.map((year, i) => (
+          <option value={year} key={i}>
+            {year}
+          </option>
+        ))}
+      </select>
       {dateError && (
-        <Paper
-          elevation={3}
+        <div
           className={
             !view3 ? "input_error" : "input_error input_error_select_large"
           }
         >
-          <Box display="flex" alignItems="center" justifyContent="center" p={1}>
-            <Box
-              className={!view3 ? "error_arrow_bottom" : "error_arrow_left"}
-              mr={1}
-            ></Box>
-            <Typography variant="body2">{dateError}</Typography>
-          </Box>
-        </Paper>
+          <div
+            className={!view3 ? "error_arrow_bottom" : "error_arrow_left"}
+          ></div>
+          {dateError}
+        </div>
       )}
-    </Box>
+    </div>
   );
 }

@@ -1,0 +1,50 @@
+@mixin flex($direction, $justify, $align) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+  }
+  
+  @mixin circle($size, $color) {
+    width: $size;
+    height: $size;
+    border-radius: 50%;
+    background-color: $color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+    @mixin box-shadow-1 {
+        box-shadow: 0 1px 2px var(--shadow-1);
+        }
+        
+        @mixin box-shadow-2 {
+        box-shadow: 0 12px 28px 0 var(--shadow-1), 0 2px 4px 0 var(--shadow-2),
+        inset 0 0 0 1px var(--shadow-inset);
+        }
+        
+        @mixin bg-primary {
+        background: var(--bg-primary);
+        }
+        
+        @mixin bg-forth {
+        background: var(--bg-forth);
+        }
+        
+        @mixin bg-third {
+        background: var(--bg-third);
+        }
+        
+        @mixin color-secondary {
+        color: var(--color-secondary);
+        }
+        
+        @mixin flex-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        }
+        
+        

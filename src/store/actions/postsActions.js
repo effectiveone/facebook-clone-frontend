@@ -43,11 +43,11 @@ export const createPost =
         }
       );
 
-      dispatch(createPostSuccess(res.data));
+      dispatch(createPostSuccess(res?.data));
       return res; // Move return statement after dispatch
     } catch (error) {
       console.log(error); // dodana instrukcja logowania błędu
-      dispatch(createPostFailure(error.response.data.message));
+      dispatch(createPostFailure(error.response?.data?.message));
     }
   };
 
@@ -66,7 +66,7 @@ export const getAllPosts = (userToken) => async (dispatch) => {
     );
     dispatch({
       type: POSTS_SUCCESS,
-      payload: res.data,
+      payload: res?.data,
     });
   } catch (error) {
     dispatch({
@@ -92,7 +92,7 @@ export const reactPost = (postId, react, token) => async (dispatch) => {
     );
     dispatch({ type: REACT_POST, payload: { postId, data } });
   } catch (error) {
-    dispatch({ type: POST_ERROR, payload: error.response.data.message });
+    dispatch({ type: POST_ERROR, payload: error.response?.data.message });
   }
 };
 
@@ -104,7 +104,7 @@ export const getReacts = (postId, token) => async (dispatch) => {
     );
     dispatch({ type: GET_REACTS, payload: { postId, reacts: data } });
   } catch (error) {
-    dispatch({ type: POST_ERROR, payload: error.response.data.message });
+    dispatch({ type: POST_ERROR, payload: error.response?.data.message });
   }
 };
 

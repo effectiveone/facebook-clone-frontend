@@ -3,12 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  PROFILE_REQUEST as getProfileRequest,
-  PROFILE_SUCCESS as getProfileSuccess,
-  PROFILE_ERROR as getProfileError,
-  setOthername,
-} from "../store/actions/profileActions";
+import { getProfile } from "../store/actions/profileActions";
 
 export const useProfile = () => {
   const [visible, setVisible] = useState(false);
@@ -22,54 +17,11 @@ export const useProfile = () => {
   const { loading, error } = profile;
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    getProfile();
-  }, [userName]);
-
-  useEffect(() => {
-    setOthername(profile?.details?.otherName);
-  }, [profile]);
-
   const visitor = userName === user.username ? false : true;
   const [othername, setOthername] = useState();
   const path = `${userName}/*`;
   const max = 30;
   const sort = "desc";
-
-  const getProfile = async () => {
-    try {
-      dispatch(getProfileRequest());
-      const res = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/getProfile/${userName}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-      if (res.data.ok === false) {
-        navigate("/profile");
-      } else {
-        try {
-          const images = await axios.post(
-            `${process.env.REACT_APP_BACKEND_URL}/listImages`,
-            { path, sort, max },
-            {
-              headers: {
-                Authorization: `Bearer ${user.token}`,
-              },
-            }
-          );
-          setPhotos(images?.data);
-        } catch (error) {
-          console.log(error);
-        }
-        dispatch(getProfileSuccess(res.data));
-      }
-    } catch (error) {
-      dispatch(getProfileError(error.response?.data?.message));
-    }
-  };
 
   const profileTop = useRef(null);
   const leftSide = useRef(null);
@@ -90,6 +42,18 @@ export const useProfile = () => {
   const getScroll = () => {
     setScrollHeight(window.pageYOffset);
   };
+
+  useEffect(() => {
+    dispatch(
+      getProfile(userName, user.token, navigate, path, sort, max, setPhotos)
+    );
+  }, [userName]);
+
+  useEffect(() => {
+    if (profile?.details?.otherName) {
+      setOthername(profile.details.otherName);
+    }
+  }, [profile]);
 
   return {
     visible,
