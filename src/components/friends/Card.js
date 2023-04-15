@@ -1,31 +1,27 @@
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import {
-  acceptRequest,
-  cancelRequest,
-  deleteRequest,
-} from "../../store/actions/userActions";
+  acceptFriendInvitation,
+  rejectFriendInvitation,
+} from "../../store/actions/friendsActions";
 
-export default function Card({ userr, type, getData }) {
-  const { user } = useSelector((state) => ({ ...state }));
-  const cancelRequestHandler = async (userId) => {
-    const res = await cancelRequest(userId, user.token);
-    if (res === "ok") {
-      getData();
-    }
+export default function Card({ userr, type, allDate, key, second }) {
+  const dispatch = useDispatch();
+
+  const confirmHandler = async (invitationId) => {
+    console.log(`senderId: ${userr._id}, receiverId: ${second}}`);
+
+    dispatch(
+      acceptFriendInvitation({ senderId: userr._id, receiverId: second })
+    );
   };
-  const confirmHandler = async (userId) => {
-    const res = await acceptRequest(userId, user.token);
-    if (res === "ok") {
-      getData();
-    }
+
+  const deleteHandler = async (invitationId) => {
+    dispatch(
+      rejectFriendInvitation({ senderId: userr._id, receiverId: second })
+    );
   };
-  const deleteHandler = async (userId) => {
-    const res = await deleteRequest(userId, user.token);
-    if (res === "ok") {
-      getData();
-    }
-  };
+
   return (
     <div className="req_card">
       <Link to={`/profile/${userr.username}`}>
@@ -34,22 +30,12 @@ export default function Card({ userr, type, getData }) {
       <div className="req_name">
         {userr.first_name} {userr.last_name}
       </div>
-      {type === "sent" ? (
-        <button
-          className="blue_btn"
-          onClick={() => cancelRequestHandler(userr._id)}
-        >
-          Cancel Request
-        </button>
-      ) : type === "request" ? (
+      {type === "request" ? (
         <>
-          <button
-            className="blue_btn"
-            onClick={() => confirmHandler(userr._id)}
-          >
+          <button className="blue_btn" onClick={() => confirmHandler()}>
             Confirm
           </button>
-          <button className="gray_btn" onClick={() => deleteHandler(userr._id)}>
+          <button className="gray_btn" onClick={() => deleteHandler()}>
             Delete
           </button>
         </>

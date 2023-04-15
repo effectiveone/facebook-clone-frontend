@@ -88,9 +88,9 @@ const sendFriendInvitation = (data) => {
   };
 };
 
-const acceptFriendInvitation = (data) => {
+const acceptFriendInvitation = ({ senderId, receiverId }) => {
   return async (dispatch) => {
-    const response = await api.acceptFriendInvitation(data);
+    const response = await api.acceptFriendInvitation({ senderId, receiverId });
 
     if (response.error) {
       dispatch(openAlertMessage(response.exception?.response?.data));
@@ -100,9 +100,12 @@ const acceptFriendInvitation = (data) => {
   };
 };
 
-const rejectFriendInvitation = (data) => {
+const rejectFriendInvitation = ({ senderId, receiverId }) => {
   return async (dispatch) => {
-    const response = await api.rejectFriendInvitation(data);
+    const response = await api.rejectFriendInvitation({
+      senderId,
+      receiverId,
+    });
 
     if (response.error) {
       dispatch(openAlertMessage(response.exception?.response?.data));

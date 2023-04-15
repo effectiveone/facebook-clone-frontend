@@ -7,10 +7,11 @@ import { getProfile } from "../store/actions/profileActions";
 
 export const useProfile = () => {
   const [visible, setVisible] = useState(false);
-  const { username } = useParams();
   const navigate = useNavigate();
   const { user } = useSelector((state) => ({ ...state }));
   const [photos, setPhotos] = useState({});
+  const { username } = useParams();
+
   const userName = username === undefined ? user.username : username;
 
   const profile = useSelector((state) => state?.profile);

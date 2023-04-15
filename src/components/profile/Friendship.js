@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import useClickOutside from "../../utils/clickOutside";
 import { useSelector, useDispatch } from "react-redux";
 import { follow, unfollow, unfriend } from "../../store/actions/userActions";
@@ -7,10 +7,19 @@ import {
   rejectFriendInvitation,
   sendFriendInvitation,
 } from "../../store/actions/friendsActions";
+import { getProfile } from "../../store/actions/profileActions";
 import { useProfileContext } from "../../context/useProfileContext";
+import { useParams } from "react-router-dom";
 
-export default function Friendship({ friendshipp }) {
+function Friendship({ friendshipp }) {
+  const dispatch = useDispatch();
   const { profile } = useProfileContext();
+  const { username } = useParams();
+
+  // useEffect(() => {
+  //   dispatch(getProfile(username));
+  // }, []);
+
   const profileid = profile.profile._id;
   const [friendship, setFriendship] = useState(friendshipp);
   useEffect(() => {
@@ -23,7 +32,6 @@ export default function Friendship({ friendshipp }) {
   useClickOutside(menu, () => setFriendsMenu(false));
   useClickOutside(menu1, () => setRespondMenu(false));
   const { user } = useSelector((state) => ({ ...state }));
-  const dispatch = useDispatch();
 
   const addFriendHandler = async () => {
     setFriendship({ ...friendship, requestSent: true, following: true });
@@ -202,3 +210,5 @@ export default function Friendship({ friendshipp }) {
     </div>
   );
 }
+
+export default React.memo(Friendship);

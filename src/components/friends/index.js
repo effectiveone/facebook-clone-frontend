@@ -119,8 +119,9 @@ export default function Friends() {
                 {data.receivedRequests &&
                   data.receivedRequests.map((user) => (
                     <Card
+                      second={user.receiverId}
                       userr={user.senderId}
-                      key={user.senderId._id}
+                      key={user}
                       type="request"
                       getData={getData}
                     />
@@ -142,8 +143,10 @@ export default function Friends() {
                 {data.sentRequests &&
                   data.sentRequests.map((user) => (
                     <Card
+                      second={user.senderId}
                       userr={user.receiverId}
-                      key={user.receiverId._id}
+                      key={user}
+                      allDate={user}
                       type="sent"
                       getData={getData}
                     />
