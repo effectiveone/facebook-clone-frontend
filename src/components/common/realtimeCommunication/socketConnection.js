@@ -8,11 +8,12 @@ import { store } from "../../../store";
 import * as roomHandler from "./roomHandler";
 import * as webRTCHandler from "./webRTCHandler";
 import { updateDirectChatHistoryIfActive } from "../../../utils/chat";
+
 let socket = null;
 
 export const connectWithSocketServer = (userDetails) => {
-  console.log("connectWithSocketServer", userDetails);
-  const jwtToken = userDetails.token;
+  console.log("connectWithSocketServesr", userDetails);
+  const jwtToken = userDetails?.token;
 
   socket = io("http://localhost:8080", {
     auth: {
