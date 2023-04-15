@@ -1,24 +1,25 @@
-import store from "../store/store";
-import { setLocalStream, setRemoteStreams } from "../store/actions/roomActions";
+import { store } from "../../../store";
+import {
+  setLocalStream,
+  setRemoteStreams,
+} from "../../../store/actions/roomActions";
 import Peer from "simple-peer";
+import "webrtc-adapter";
 import * as socketConnection from "./socketConnection";
 
-const getConfiguration = () => {
+function getConfiguration() {
+  const peer = new Peer({ initiator: true, trickle: false });
+
   const turnIceServers = null;
 
   if (turnIceServers) {
     // TODO use TURN server credentials
   } else {
     console.warn("Using only STUN server");
-    return {
-      iceServers: [
-        {
-          urls: "stun:stun.l.google.com:19302",
-        },
-      ],
-    };
   }
-};
+
+  return {};
+}
 
 const onlyAudioConstraints = {
   audio: true,
@@ -30,7 +31,7 @@ const defaultConstraints = {
   audio: true,
 };
 
-export const getLocalStreamPreview = (onlyAudio = false, callbackFunc) => {
+export function getLocalStreamPreview(onlyAudio = false, callbackFunc) {
   const constraints = onlyAudio ? onlyAudioConstraints : defaultConstraints;
 
   navigator.mediaDevices
@@ -43,17 +44,16 @@ export const getLocalStreamPreview = (onlyAudio = false, callbackFunc) => {
       console.log(err);
       console.log("Cannot get an access to local stream");
     });
-};
+}
 
 let peers = {};
 
-export const prepareNewPeerConnection = (connUserSocketId, isInitiator) => {
+export function prepareNewPeerConnection(connUserSocketId, isInitiator) {
   const localStream = store.getState().room.localStream;
 
-  if (isInitiator) {
-    console.log("preparing new peer connection as initiator");
-  } else {
-    console.log("preparing new peer connection as not initiator");
+  if (!localStream) {
+    console.log("Local stream is null or undefined");
+    return;
   }
 
   peers[connUserSocketId] = new Peer({
@@ -65,48 +65,44 @@ export const prepareNewPeerConnection = (connUserSocketId, isInitiator) => {
   peers[connUserSocketId].on("signal", (data) => {
     const signalData = {
       signal: data,
-      connUserSocketId: connUserSocketId,
+      connUserSocketId,
     };
-
     socketConnection.signalPeerData(signalData);
   });
 
   peers[connUserSocketId].on("stream", (remoteStream) => {
-    // TODO
-    // add new remote stream to our server store
     console.log("remote stream came from other user");
     console.log("direct connection has been established");
     remoteStream.connUserSocketId = connUserSocketId;
     addNewRemoteStream(remoteStream);
   });
-};
+}
 
-export const handleSignalingData = (data) => {
+export function handleSignalingData(data) {
   const { connUserSocketId, signal } = data;
 
   if (peers[connUserSocketId]) {
     peers[connUserSocketId].signal(signal);
   }
-};
+}
 
-const addNewRemoteStream = (remoteStream) => {
+function addNewRemoteStream(remoteStream) {
   const remoteStreams = store.getState().room.remoteStreams;
   const newRemoteStreams = [...remoteStreams, remoteStream];
 
   store.dispatch(setRemoteStreams(newRemoteStreams));
-};
+}
 
-export const closeAllConnections = () => {
-  Object.entries(peers).forEach((mappedObject) => {
-    const connUserSocketId = mappedObject[0];
-    if (peers[connUserSocketId]) {
-      peers[connUserSocketId].destroy();
+export function closeAllConnections() {
+  Object.entries(peers).forEach(([connUserSocketId, peer]) => {
+    if (peer) {
+      peer.destroy();
       delete peers[connUserSocketId];
     }
   });
-};
+}
 
-export const handleParticipantLeftRoom = (data) => {
+export function handleParticipantLeftRoom(data) {
   const { connUserSocketId } = data;
 
   if (peers[connUserSocketId]) {
@@ -121,24 +117,20 @@ export const handleParticipantLeftRoom = (data) => {
   );
 
   store.dispatch(setRemoteStreams(newRemoteStreams));
-};
+}
 
-export const switchOutgoingTracks = (stream) => {
-  for (let socket_id in peers) {
-    for (let index in peers[socket_id].streams[0].getTracks()) {
-      for (let index2 in stream.getTracks()) {
-        if (
-          peers[socket_id].streams[0].getTracks()[index].kind ===
-          stream.getTracks()[index2].kind
-        ) {
-          peers[socket_id].replaceTrack(
-            peers[socket_id].streams[0].getTracks()[index],
-            stream.getTracks()[index2],
-            peers[socket_id].streams[0]
-          );
-          break;
-        }
+export function switchOutgoingTracks(stream) {
+  const peersArray = Object.values(peers);
+
+  peersArray.forEach((peer) => {
+    peer._pc.getSenders().forEach((sender) => {
+      const currentTrack = sender.track;
+      const newTrack = stream
+        .getTracks()
+        .find((track) => track.kind === currentTrack.kind);
+      if (newTrack) {
+        sender.replaceTrack(newTrack);
       }
-    }
-  }
-};
+    });
+  });
+}

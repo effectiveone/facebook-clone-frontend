@@ -1,7 +1,13 @@
 import { Dots, NewRoom, Search } from "../../../../assets/svg";
 import Contact from "./Contact";
+import React from "react";
 import "./style.css";
-export default function RightHome({ user }) {
+import { useFriends } from "../../../../hooks/useFriends";
+export default function RightHome() {
+  const {
+    data: { friends: user },
+  } = useFriends();
+  console.log("user", user);
   const color = "#65676b";
   return (
     <div className="right_home">
@@ -23,7 +29,11 @@ export default function RightHome({ user }) {
           </div>
         </div>
         <div className="contacts_list">
-          <Contact user={user} />
+          {user?.map((cur, i) => (
+            <React.Fragment key={i}>
+              <Contact user={cur} />
+            </React.Fragment>
+          ))}
         </div>
       </div>
     </div>

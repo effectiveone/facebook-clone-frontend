@@ -1,4 +1,5 @@
 export default function Contact({ user }) {
+  console.log("co tu sie odpierdala", user);
   return (
     <div className="contact hover3">
       <div className="contact_img">

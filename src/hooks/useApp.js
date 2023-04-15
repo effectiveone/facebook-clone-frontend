@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllPosts } from "../store/actions/postsActions";
+import { connectWithSocketServer } from "../components/common/realtimeCommunication/socketConnection";
 
 const useApp = () => {
   const [visible, setVisible] = useState(false);
@@ -17,6 +18,9 @@ const useApp = () => {
     fetchAllPosts();
   }, [fetchAllPosts]);
 
+  useEffect(() => {
+    connectWithSocketServer(user);
+  }, []);
   return {
     visible,
     user,

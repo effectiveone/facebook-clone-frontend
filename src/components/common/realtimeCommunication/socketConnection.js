@@ -4,14 +4,14 @@ import {
   setFriends,
   setOnlineUsers,
 } from "../../../store/actions/friendsActions";
-import store from "../../../store";
-import { updateDirectChatHistoryIfActive } from "../shared/utils/chat";
+import { store } from "../../../store";
 import * as roomHandler from "./roomHandler";
 import * as webRTCHandler from "./webRTCHandler";
-
+import { updateDirectChatHistoryIfActive } from "../../../utils/chat";
 let socket = null;
 
 export const connectWithSocketServer = (userDetails) => {
+  console.log("connectWithSocketServer", userDetails);
   const jwtToken = userDetails.token;
 
   socket = io("http://localhost:8080", {
@@ -36,6 +36,7 @@ export const connectWithSocketServer = (userDetails) => {
   });
 
   socket.on("online-users", (data) => {
+    console.log("online-users", data);
     const { onlineUsers } = data;
     store.dispatch(setOnlineUsers(onlineUsers));
   });

@@ -1,4 +1,4 @@
-import store from "../store/store";
+import { store } from "../../../store";
 import {
   setOpenRoom,
   setRoomDetails,
@@ -7,7 +7,7 @@ import {
   setRemoteStreams,
   setScreenSharingStream,
   setIsUserJoinedOnlyWithAudio,
-} from "../store/actions/roomActions";
+} from "../../../store/actions/roomActions";
 import * as socketConnection from "./socketConnection";
 import * as webRTCHandler from "./webRTCHandler";
 
