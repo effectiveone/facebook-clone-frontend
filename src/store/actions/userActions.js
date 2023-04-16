@@ -1,15 +1,19 @@
 import axios from "axios";
 
-const makeRequest = (url, method) => async (data, token) => {
+const makeRequest = (url, method) => (data, token) => async () => {
   try {
+    const headers = {};
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
     const response = await axios({
       method,
       url: `${process.env.REACT_APP_BACKEND_URL}${url}`,
       data,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers,
     });
+
     return response.data;
   } catch (error) {
     return error.response.data.message;

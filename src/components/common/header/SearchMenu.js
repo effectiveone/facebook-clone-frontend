@@ -8,13 +8,18 @@ import {
   search,
 } from "../../../store/actions/userActions";
 import { Link } from "react-router-dom";
-export default function SearchMenu({ color, setShowSearchMenu, token }) {
+import { useAppContext } from "../../../context/useAppContext";
+
+export default function SearchMenu({ color, setShowSearchMenu }) {
+  const { user } = useAppContext();
+  const { token } = user;
   const [iconVisible, setIconVisible] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
   const [searchHistory, setSearchHistory] = useState([]);
   const menu = useRef(null);
   const input = useRef(null);
+
   useClickOutside(menu, () => {
     setShowSearchMenu(false);
   });
@@ -28,27 +33,44 @@ export default function SearchMenu({ color, setShowSearchMenu, token }) {
   useEffect(() => {
     input.current.focus();
   }, []);
-  const searchHandler = async () => {
+
+  const searchHandler = useCallback(async () => {
+    console.log("tokensearchHandler", token);
+    console.log("searchTerm_searchHandler", searchTerm);
+
+    // If the searchTerm is an empty string, set the results to an empty array
     if (searchTerm === "") {
-      setResults("");
+      setResults([]);
     } else {
-      const res = await search(searchTerm, token);
+      // Call the search function with the searchTerm
+      const searchFunction = search(searchTerm);
+
+      // Pass the data and token as separate arguments to searchFunction
+      const res = await searchFunction({}, token)();
+
+      // Alternatively, you can use .then and .catch for handling promises
+      // searchFunction({}, token)().then(console.log).catch(console.error);
+
+      // Update the results with the received data
       setResults(res);
     }
-  };
+  }, [search, searchTerm, token]);
 
   useEffect(() => {
     getHistory();
   }, [getHistory]);
+
   const addToSearchHistoryHandler = async (searchUser) => {
     // eslint-disable-next-line
     const res = await addToSearchHistory(searchUser, token);
     getHistory();
   };
+
   const handleRemove = async (searchUser) => {
     removeFromSearch(searchUser, token);
     getHistory();
   };
+
   return (
     <div className="header_left search_area scrollbar" ref={menu}>
       <div className="search_wrap">
@@ -98,6 +120,8 @@ export default function SearchMenu({ color, setShowSearchMenu, token }) {
       <div className="search_history scrollbar">
         {searchHistory &&
           results === "" &&
+          Array.isArray(searchHistory) &&
+          searchHistory.length > 0 &&
           searchHistory
             .sort((a, b) => {
               return new Date(b.createdAt) - new Date(a.createdAt);
@@ -125,6 +149,8 @@ export default function SearchMenu({ color, setShowSearchMenu, token }) {
       </div>
       <div className="search_results scrollbar">
         {results &&
+          Array.isArray(results) &&
+          results.length > 0 &&
           results?.map((user) => (
             <Link
               to={`/profile/${user.username}`}
