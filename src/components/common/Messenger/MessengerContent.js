@@ -5,6 +5,7 @@ import NewMessageInput from "./NewMessageInput";
 import { getDirectChatHistory } from "../realtimeCommunication/socketConnection";
 import { setMessages } from "../../../store/actions/chatActions";
 import "./MessengerContent.scss";
+import MessagesHeader from "./Messages/MessagesHeader";
 
 const MessengerContent = () => {
   const dispatch = useDispatch();
@@ -22,8 +23,9 @@ const MessengerContent = () => {
 
   return (
     <div className="messenger-content">
-      <Messages />
       <NewMessageInput />
+      <MessagesHeader name={chosenChatDetails?.name} />
+      <Messages />
     </div>
   );
 };

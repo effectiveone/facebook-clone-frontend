@@ -4,7 +4,7 @@ import Avatar from "./Avatar";
 import Typography from "@mui/material/Typography";
 
 const Message = ({ content, sameAuthor, username, date, sameDay }) => {
-  const currentUserId = useSelector((state) => state.auth.user.id);
+  const currentUserId = useSelector((state) => state.auth?.user?.id);
 
   if (sameAuthor && sameDay) {
     return (

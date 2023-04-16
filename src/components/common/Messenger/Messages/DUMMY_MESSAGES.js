@@ -1,54 +1,47 @@
-const DUMMY_MESSAGES = [
+export const dummy_data = [
   {
-    _id: 1,
-    content: "hello",
-    sameAuthor: false,
+    _id: "1",
+    content: "Cześć!",
     author: {
-      username: "Marek",
+      username: "jan_kowalski",
+      _id: "user1"
     },
-    date: "22/01/2022",
-    sameDay: false,
+    date: "2022-05-01T10:30:00.000Z"
   },
   {
-    _id: 2,
-    content: "hello once again",
-    sameAuthor: true,
+    _id: "2",
+    content: "Hej!",
     author: {
-      username: "Marek",
+      username: "nowak_anna",
+      _id: "user2"
     },
-    date: "22/01/2022",
-    sameDay: true,
+    date: "2022-05-01T11:15:00.000Z"
   },
   {
-    _id: 3,
-    content: "hello third time",
-    sameAuthor: true,
+    _id: "3",
+    content: "Jak się masz?",
     author: {
-      username: "Marek",
+      username: "jan_kowalski",
+      _id: "user1"
     },
-    date: "23/01/2022",
-    sameDay: false,
+    date: "2022-05-02T14:20:00.000Z"
   },
   {
-    _id: 4,
-    content: "hello response first time",
-    sameAuthor: false,
+    _id: "4",
+    content: "Dobrze, a Ty?",
     author: {
-      username: "John",
+      username: "nowak_anna",
+      _id: "user2"
     },
-    date: "23/01/2022",
-    sameDay: true,
+    date: "2022-05-02T15:00:00.000Z"
   },
   {
-    _id: 5,
-    content: "hello response third time",
-    sameAuthor: true,
+    _id: "5",
+    content: "Też dobrze.",
     author: {
-      username: "John",
+      username: "jan_kowalski",
+      _id: "user1"
     },
-    date: "24/01/2022",
-    sameDay: false,
-  },
+    date: "2022-05-03T20:10:00.000Z"
+  }
 ];
-
-export default DUMMY_MESSAGES;

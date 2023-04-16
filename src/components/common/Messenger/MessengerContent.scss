@@ -1,12 +1,91 @@
+$blue-hard: #3c539b;
+$blue-icon: #afbad7;
+$bg: #e8eaee;
+$bg-msg-friend: #fefefe;
+$bg-msg-me: #deebff;
+$green-connect: #3cae1a;
+$gray-icon: #afbad7;
+$gray-border: #bfbfbf;
+$white: #ffffff;
+$blue-icon-select: #0075ff;
+
+.chat {
+  width: 300px;
+  height: 600px;
+  background-color: $bg;
+  border: solid 0.5px $gray-border;
+  bottom: 0;
+
+  .chat-head {
+    height: 28px;
+    width: 300px;
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    background-color: $blue-hard;
+    .chat-connect {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: $green-connect;
+      position: absolute;
+      display: inline;
+      margin-top: 8px;
+    }
+    .chat-name {
+      text-align: left;
+      line-height: 28px;
+      font-size: 15px;
+      margin-left: 14px;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .chat-head-list-icon {
+right: 0;
+position: absolute;
+top: -auto;
+display: flex;
+justify-content: center;
+      // left: 170px;
+      font-size: 13px;
+      float: left;
+      color: $gray-icon;
+      padding-left: 10px;
+      i:hover {
+        cursor: pointer;
+        color: $white;
+    
+      }
+    }
+  }}
+
 .messenger-content {
     flex-grow: 1;
-    height: 600px;
-    width: 400px !important;
-    transform: translateX(-200px)
+    position: relative;
+        height: 100px;
+    width: 300px;
+    margin-left: -200px;
   }
-  
+  .messages-container {
+    height: 500px;
+  scroll-behavior: auto;
+  }
   /* opcjonalnie, style dla dzieci komponentu */
   .messenger-content > * {
     margin-bottom: 10px;
   }
   
+  .new-message-input {
+    position: absolute;
+    top: 380px;
+    display: flex;
+ 
+    align-items: center;
+    flex-direction: row;
+  z-index: 19;
+    height: 60px;
+    
+  
+  }
