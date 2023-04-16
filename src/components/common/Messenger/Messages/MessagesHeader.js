@@ -1,39 +1,39 @@
-import React from "react";
-import { styled } from "@mui/system";
-import Avatar from "../../../shared/components/Avatar";
-import Typography from "@mui/material/Typography";
-
-const MainContainer = styled("div")({
-  width: "98%",
-  display: "column",
-  marginTop: "10px",
-});
-
-const MessagesHeader = ({ name = "" }) => {
+import { Container, Typography } from "@mui/material";
+import "./MessagesHeader.scss";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import VideocamIcon from "@material-ui/icons/Videocam";
+import PhoneIcon from "@material-ui/icons/Phone";
+import SettingsIcon from "@material-ui/icons/Settings";
+import CloseIcon from "@material-ui/icons/Close";
+const MessagesHeader = ({ name }) => {
   return (
-    <MainContainer>
-      <Avatar large username={name} />
-      <Typography
-        variant="h4"
-        sx={{
-          fontWeight: "bold",
-          color: "white",
-          marginLeft: "5px",
-          marginRight: "5px",
-        }}
-      >
-        {name}
-      </Typography>
-      <Typography
-        sx={{
-          color: "#b9bbbe",
-          marginLeft: "5px",
-          marginRight: "5px",
-        }}
-      >
-        This is the beginning of your conversation with {name}
-      </Typography>
-    </MainContainer>
+    <Container className="chat skin-chat-border skin-bottom-zero">
+      <div className="chat-head skin-blue skin-chat-border">
+        <span className="chat-connect"></span>
+        <Typography className="chat-name" component="p">
+          {name}
+        </Typography>
+        <div className="chat-head-list-icon">
+          <ul>
+            <li>
+              <PersonAddIcon />
+            </li>
+            <li>
+              <VideocamIcon />
+            </li>
+            <li>
+              <PhoneIcon />
+            </li>
+            <li>
+              <SettingsIcon />
+            </li>
+            <li>
+              <CloseIcon />
+            </li>
+          </ul>
+        </div>
+      </div>
+    </Container>
   );
 };
 

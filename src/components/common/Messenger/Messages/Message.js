@@ -1,58 +1,36 @@
 import React from "react";
-import { styled } from "@mui/system";
-import Avatar from "../../../shared/components/Avatar";
+import { useSelector } from "react-redux";
+import Avatar from "./Avatar";
 import Typography from "@mui/material/Typography";
 
-const MainContainer = styled("div")({
-  width: "97%",
-  display: "flex",
-  marginTop: "10px",
-});
-
-const AvatarContainer = styled("div")({
-  width: "70px",
-});
-
-const MessageContainer = styled("div")({
-  display: "flex",
-  flexDirection: "column",
-});
-
-const MessageContent = styled("div")({
-  color: "#DCDDDE",
-});
-
-const SameAuthorMessageContent = styled("div")({
-  color: "#DCDDDE",
-  width: "97%",
-});
-
-const SameAuthorMessageText = styled("span")({
-  marginLeft: "70px",
-});
-
 const Message = ({ content, sameAuthor, username, date, sameDay }) => {
+  const currentUserId = useSelector((state) => state.auth.user.id);
+
   if (sameAuthor && sameDay) {
     return (
-      <SameAuthorMessageContent>
-        <SameAuthorMessageText>{content}</SameAuthorMessageText>
-      </SameAuthorMessageContent>
+      <div className="same-author-message-container">
+        <span className="same-author-message-text">{content}</span>
+      </div>
     );
   }
 
   return (
-    <MainContainer>
-      <AvatarContainer>
+    <div
+      className={`message-container ${
+        username === currentUserId ? "sent" : "received"
+      }`}
+    >
+      <div className="avatar-container">
         <Avatar username={username} />
-      </AvatarContainer>
-      <MessageContainer>
-        <Typography style={{ fontSize: "16px", color: "white" }}>
-          {username}{" "}
-          <span style={{ fontSize: "12px", color: "#72767d" }}>{date}</span>
+      </div>
+      <div className="message-content-container">
+        <Typography variant="body1" className="message-username">
+          {username}
+          <span className="message-date">{date}</span>
         </Typography>
-        <MessageContent>{content}</MessageContent>
-      </MessageContainer>
-    </MainContainer>
+        <div className="message-content">{content}</div>
+      </div>
+    </div>
   );
 };
 

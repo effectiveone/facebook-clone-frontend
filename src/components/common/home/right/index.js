@@ -3,6 +3,7 @@ import Contact from "./Contact";
 import React from "react";
 import "./style.css";
 import { useFriends } from "../../../../hooks/useFriends";
+import Messenger from "../../Messenger/Messenger";
 export default function RightHome() {
   const { data, friends } = useFriends();
 
@@ -43,6 +44,7 @@ export default function RightHome() {
               </React.Fragment>
             )
           )}
+          <Messenger />
         </div>
       </div>
     </div>

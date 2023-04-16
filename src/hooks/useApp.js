@@ -9,18 +9,20 @@ const useApp = () => {
   const { loading } = posts;
   const dispatch = useDispatch();
   const token = user?.token;
+
   const fetchAllPosts = useCallback(() => {
-    localStorage.setItem("user", JSON.stringify({ token }));
-    dispatch(getAllPosts(user?.token));
-  }, [dispatch, user?.token]);
+    if (user && user.token) {
+      dispatch(getAllPosts(user.token));
+    }
+  }, [dispatch, user]);
 
   useEffect(() => {
-    fetchAllPosts();
-  }, [fetchAllPosts]);
+    if (user && user.token) {
+      fetchAllPosts();
+      connectWithSocketServer(user);
+    }
+  }, [fetchAllPosts, user]);
 
-  useEffect(() => {
-    connectWithSocketServer(user);
-  }, []);
   return {
     visible,
     user,

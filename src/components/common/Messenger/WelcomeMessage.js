@@ -1,6 +1,7 @@
 import React from "react";
 import { Typography } from "@mui/material";
 import { styled } from "@mui/system";
+import "./WelcomeMessage.scss";
 
 const Wrapper = styled("div")({
   flexGrow: 1,
@@ -12,8 +13,8 @@ const Wrapper = styled("div")({
 
 const WelcomeMessage = () => {
   return (
-    <Wrapper>
-      <Typography variant="h6" sx={{ color: "white" }}>
+    <Wrapper className="welcome-message-container">
+      <Typography variant="h6" className="welcome-message-text">
         To start chatting - choose conversation
       </Typography>
     </Wrapper>

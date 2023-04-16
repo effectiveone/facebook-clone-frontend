@@ -12,7 +12,6 @@ import { updateDirectChatHistoryIfActive } from "../../../utils/chat";
 let socket = null;
 
 export const connectWithSocketServer = (userDetails) => {
-  console.log("connectWithSocketServesr", userDetails);
   const jwtToken = userDetails?.token;
 
   socket = io("http://localhost:8080", {
@@ -23,7 +22,6 @@ export const connectWithSocketServer = (userDetails) => {
 
   socket.on("connect", () => {
     console.log("succesfully connected with socket.io server");
-    console.log(socket.id);
   });
 
   socket.on("friends-invitations", (data) => {
@@ -37,13 +35,11 @@ export const connectWithSocketServer = (userDetails) => {
   });
 
   socket.on("online-users", (data) => {
-    console.log("online-users", data);
     const { onlineUsers } = data;
     store.dispatch(setOnlineUsers(onlineUsers));
   });
 
   socket.on("direct-chat-history", (data) => {
-    console.log(data);
     updateDirectChatHistoryIfActive(data);
   });
 

@@ -1,29 +1,23 @@
 import React, { useState } from "react";
-import { styled } from "@mui/system";
-import { connect } from "react-redux";
-import { sendDirectMessage } from "../../realtimeCommunication/socketConnection";
-
-const MainContainer = styled("div")({
-  height: "60px",
-  width: "100%",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-});
-
-const Input = styled("input")({
-  backgroundColor: "#2f3136",
-  width: "98%",
-  height: "44px",
-  color: "white",
-  border: "none",
-  borderRadius: "8px",
-  fontSize: "14px",
-  padding: "0 10px",
-});
-
-const NewMessageInput = ({ chosenChatDetails }) => {
+import { useDispatch, useSelector } from "react-redux";
+import { sendDirectMessage } from "../realtimeCommunication/socketConnection";
+import { TextField, Button } from "@mui/material";
+import { setMessages } from "../../../store/actions/chatActions";
+import CameraAltIcon from "@material-ui/icons/CameraAlt";
+import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
+import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
+import SportsEsportsIcon from "@material-ui/icons/SportsEsports";
+import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
+import AttachFileIcon from "@material-ui/icons/AttachFile";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import "./Messages/MessagesHeader.scss";
+import "./NewMessageInput.scss";
+const NewMessageInput = () => {
   const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
+  const chosenChatDetails = useSelector(
+    (state) => state.chat.chosenChatDetails
+  );
 
   const handleMessageValueChange = (event) => {
     setMessage(event.target.value);
@@ -41,26 +35,57 @@ const NewMessageInput = ({ chosenChatDetails }) => {
         receiverUserId: chosenChatDetails.id,
         content: message,
       });
+      dispatch(
+        setMessages([
+          ...chosenChatDetails.messages,
+          { content: message, isSent: true },
+        ])
+      );
       setMessage("");
     }
   };
 
   return (
-    <MainContainer>
-      <Input
-        placeholder={`Write message to ${chosenChatDetails.name}`}
-        value={message}
-        onChange={handleMessageValueChange}
-        onKeyDown={handleKeyPressed}
-      />
-    </MainContainer>
+    <div className="New-message-input">
+      <div className="chat-content skin-padding-rl"></div>
+      <div className="chat-foot skin-white skin-padding-rl">
+        <TextField
+          className="new-message-input__textfield"
+          placeholder={`Write message to ${chosenChatDetails.name}`}
+          value={message}
+          onChange={handleMessageValueChange}
+          onKeyDown={handleKeyPressed}
+          variant="outlined"
+          size="small"
+        />
+        <div className="chat-foot-list-icon">
+          <ul>
+            <li>
+              <CameraAltIcon />
+            </li>
+            <li>
+              <InsertEmoticonIcon />
+            </li>
+            <li>
+              <CardGiftcardIcon />
+            </li>
+            <li>
+              <SportsEsportsIcon />
+            </li>
+            <li>
+              <MonetizationOnIcon />
+            </li>
+            <li>
+              <AttachFileIcon />
+            </li>
+            <li>
+              <ThumbUpAltIcon />
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   );
 };
 
-const mapStoreStateToProps = ({ chat }) => {
-  return {
-    ...chat,
-  };
-};
-
-export default connect(mapStoreStateToProps)(NewMessageInput);
+export default NewMessageInput;

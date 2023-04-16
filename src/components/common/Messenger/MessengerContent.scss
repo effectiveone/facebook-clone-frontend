@@ -1,0 +1,12 @@
+.messenger-content {
+    flex-grow: 1;
+    height: 600px;
+    width: 400px !important;
+    transform: translateX(-200px)
+  }
+  
+  /* opcjonalnie, style dla dzieci komponentu */
+  .messenger-content > * {
+    margin-bottom: 10px;
+  }
+  

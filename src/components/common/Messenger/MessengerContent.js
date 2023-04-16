@@ -1,25 +1,30 @@
 import React, { useEffect } from "react";
-import { styled } from "@mui/system";
+import { useSelector, useDispatch } from "react-redux";
 import Messages from "./Messages/Messages";
 import NewMessageInput from "./NewMessageInput";
-import { getDirectChatHistory } from "../../realtimeCommunication/socketConnection";
+import { getDirectChatHistory } from "../realtimeCommunication/socketConnection";
+import { setMessages } from "../../../store/actions/chatActions";
+import "./MessengerContent.scss";
 
-const Wrapper = styled("div")({
-  flexGrow: 1,
-});
+const MessengerContent = () => {
+  const dispatch = useDispatch();
+  const chosenChatDetails = useSelector(
+    (state) => state.chat.chosenChatDetails
+  );
 
-const MessengerContent = ({ chosenChatDetails }) => {
   useEffect(() => {
     getDirectChatHistory({
       receiverUserId: chosenChatDetails.id,
+    })?.then((messages) => {
+      dispatch(setMessages(messages));
     });
-  }, [chosenChatDetails]);
+  }, [chosenChatDetails, dispatch]);
 
   return (
-    <Wrapper>
+    <div className="messenger-content">
       <Messages />
       <NewMessageInput />
-    </Wrapper>
+    </div>
   );
 };
 
