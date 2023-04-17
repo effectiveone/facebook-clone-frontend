@@ -1,70 +1,88 @@
-# Getting Started with Create React App
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>My MERN App</title>
+</head>
+<body>
+<h1>My MERN App</h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p>This is a MERN stack (MongoDB, Express, React, and Node.js) application built using the Model-View-Controller (MVC) architecture. The application consists of a React frontend, an Express backend, and a MongoDB database. The frontend and backend communicate via Socket.io and RESTful API, mainly utilizing the Axios library. The frontend controller is managed by Redux, which connects to the backend via HTTP requests.</p>
 
-## Available Scripts
+<h2>Features</h2>
 
-In the project directory, you can run:
+<p>The application includes the following features:</p>
 
-### `npm start`
+<ul>
+    <li>Authentication: Login, registration, and password recovery.</li>
+    <li>Posts: Create posts, add comments, react with emojis, and upload images.</li>
+    <li>Messaging: Send messages through the chat feature.</li>
+    <li>Profile Page: Customize your profile with background images and custom icons.</li>
+    <li>Friends: Send, accept, or reject friend requests.</li>
+</ul>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<h2>Frontend Libraries</h2>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+<p>The frontend uses several libraries, including:</p>
 
-### `npm test`
+<ul>
+    <li><code>@emotion/react</code> and <code>@emotion/styled</code>: CSS-in-JS styling library for React.</li>
+    <li><code>@material-ui/core</code> and <code>@material-ui/icons</code>: Material-UI components and icons for React.</li>
+    <li><code>formik</code> and <code>yup</code>: Form handling and validation for React applications.</li>
+    <li><code>axios</code>: Promise-based HTTP client for the browser and Node.js.</li>
+    <li><code>react-redux</code>: Official React bindings for Redux.</li>
+    <li><code>react-router-dom</code>: DOM bindings for React Router.</li>
+</ul>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<h2>Starting the React Frontend</h2>
 
-### `npm run build`
+<p>To start the React frontend application, run the following command in your terminal:</p>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<pre><code>npm start</code></pre>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<p>This will launch the application in development mode, and you can view it in your browser by navigating to <a href="http://localhost:3000">http://localhost:3000</a>.</p>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<h2>Backend Libraries</h2>
 
-### `npm run eject`
+<p>The backend uses several libraries, including:</p>
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+<ul>
+    <li><code>express</code>: Fast, unopinionated, minimalist web framework for Node.js.</li>
+    <li><code>mongoose</code>: Elegant MongoDB object modeling for Node.js.</li>
+    <li><code>socket.io</code>: Real-time bidirectional event-based communication.</li>
+</ul>
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<h2>Starting the Express Backend</h2>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+<p>To start the Express backend application, run the following command in your terminal:</p>
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+<pre><code>npm run start-server</code></pre>
 
-## Learn More
+<p>This will launch the application in development mode, and you can access the API via <a href="http://localhost:5000">http://localhost:5000</a>.</p>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<h2>Learn More</h2>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<p>To learn more about the application and its libraries, refer to their respective documentation:</p>
 
-### Code Splitting
+<ul>
+    <li><a href="https://reactjs.org/docs/getting-started.html">React</a></li>
+<li><a href="https://redux.js.org/introduction/getting-started">Redux</a></li>
+<li><a href="https://axios-http.com/docs/intro">Axios</a></li>
+<li><a href="https://expressjs.com/en/starter/installing.html">Express</a></li>
+<li><a href="https://socket.io/docs/v4/index.html">Socket.io</a></li>
+<li><a href="https://material-ui.com/getting-started/installation/">Material-UI</a></li>
+<li><a href="https://formik.org/docs/overview">Formik</a></li>
+<li><a href="https://github.com/jquense/yup">Yup</a></li>
+</ul>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+<p>For a full list of libraries used in this application, refer to the <code>package.json</code> file.</p>
+</body>
+</html>
+<p>For a full list of libraries used in this application, refer to the <code>package.json</code> file.</p>
+</body>
+</html>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
