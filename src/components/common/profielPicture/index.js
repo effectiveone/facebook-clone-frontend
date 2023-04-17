@@ -76,33 +76,39 @@ export default function ProfilePicture({ username, setShow, pRef, photos }) {
         <div className="old_pictures_wrap scrollbar">
           <h4>your profile pictures</h4>
           <div className="old_pictures">
-            {photos
-              .filter(
-                (img) => img.folder === `${user.username}/profile_pictures`
-              )
-              .map((photo) => (
-                <img
-                  src={photo.secure_url}
-                  key={photo.public_id}
-                  alt=""
-                  onClick={() => setImage(photo.secure_url)}
-                />
-              ))}
+            {photos &&
+              Array.isArray(photos) &&
+              photos.length > 0 &&
+              photos
+                .filter(
+                  (img) => img.folder === `${user.username}/profile_pictures`
+                )
+                .map((photo) => (
+                  <img
+                    src={photo.secure_url}
+                    key={photo.public_id}
+                    alt=""
+                    onClick={() => setImage(photo.secure_url)}
+                  />
+                ))}
           </div>
           <h4>other pictures</h4>
           <div className="old_pictures">
-            {photos
-              .filter(
-                (img) => img.folder !== `${user.username}/profile_pictures`
-              )
-              .map((photo) => (
-                <img
-                  src={photo.secure_url}
-                  key={photo.public_id}
-                  alt=""
-                  onClick={() => setImage(photo.secure_url)}
-                />
-              ))}
+            {photos &&
+              Array.isArray(photos) &&
+              photos.length > 0 &&
+              photos
+                ?.filter(
+                  (img) => img.folder !== `${user.username}/profile_pictures`
+                )
+                .map((photo) => (
+                  <img
+                    src={photo.secure_url}
+                    key={photo.public_id}
+                    alt=""
+                    onClick={() => setImage(photo.secure_url)}
+                  />
+                ))}
           </div>
         </div>
       </div>

@@ -10,7 +10,7 @@ const Messenger = () => {
 
   return (
     <div className="messenger-container">
-      {!chosenChatDetails ? <WelcomeMessage /> : <MessengerContent />}
+      {chosenChatDetails && <MessengerContent />}
     </div>
   );
 };

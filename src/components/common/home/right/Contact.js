@@ -11,7 +11,7 @@ export default function Contact({ user, isOnline }) {
     console.log("handleChooseActiveConversation");
     dispatch(
       setChosenChatDetails(
-        { id: user.id, name: user.username },
+        { id: user._id, name: user.username },
         chatTypes.DIRECT
       )
     );

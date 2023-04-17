@@ -1,5 +1,6 @@
 import React from "react";
 import { styled } from "@mui/system";
+import Tooltip from "@mui/material/Tooltip";
 
 const AvatarPreview = styled("div")({
   height: "42px",
@@ -15,10 +16,18 @@ const AvatarPreview = styled("div")({
 });
 
 const Avatar = ({ username, large }) => {
+  const initials = username
+    ? username.length > 1
+      ? username.substring(0, 2)
+      : username
+    : "";
+
   return (
-    <AvatarPreview style={large ? { height: "80px", width: "80px" } : {}}>
-      {username.substring(0, 2)}
-    </AvatarPreview>
+    <Tooltip title={username} placement="left">
+      <AvatarPreview style={large ? { height: "80px", width: "80px" } : {}}>
+        {initials}
+      </AvatarPreview>
+    </Tooltip>
   );
 };
 

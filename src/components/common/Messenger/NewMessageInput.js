@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { sendDirectMessage } from "../realtimeCommunication/socketConnection";
 import { TextField } from "@mui/material";
 import { setMessages } from "../../../store/actions/chatActions";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import { sendDirectMessage } from "../realtimeCommunication/socketConnection";
 
 const NewMessageInput = () => {
   const [message, setMessage] = useState("");
@@ -26,17 +26,25 @@ const NewMessageInput = () => {
   };
 
   const handleSendMessage = () => {
-    if (message.length > 0) {
+    if (message.trim().length > 0) {
       sendDirectMessage({
         receiverUserId: chosenChatDetails.id,
-        content: message,
+        content: message.trim(),
       });
-      dispatch(
-        setMessages([
-          ...chosenChatDetails.messages,
-          { content: message, isSent: true },
-        ])
-      );
+      if (
+        chosenChatDetails &&
+        chosenChatDetails.messages &&
+        Array.isArray(chosenChatDetails.messages)
+      ) {
+        dispatch(
+          setMessages([
+            ...chosenChatDetails.messages,
+            { content: message.trim(), isSent: true },
+          ])
+        );
+      } else {
+        dispatch(setMessages([{ content: message.trim(), isSent: true }]));
+      }
       setMessage("");
     }
   };

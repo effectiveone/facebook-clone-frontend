@@ -78,7 +78,8 @@ export default function Cover({ cover, visitor, photos }) {
       setLoading(true);
       let img = await getCroppedImage();
       let blob = await fetch(img).then((b) => b.blob());
-      const path = `${user.username}/cover_pictures`;
+      // Check if the user object exists before using it
+      const path = user ? `${user.username}/cover_pictures` : "";
       let formData = new FormData();
       formData.append("file", blob);
       formData.append("path", path);

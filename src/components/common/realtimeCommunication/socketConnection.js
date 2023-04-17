@@ -40,6 +40,7 @@ export const connectWithSocketServer = (userDetails) => {
   });
 
   socket.on("direct-chat-history", (data) => {
+    console.log("direct-chat-history", data);
     updateDirectChatHistoryIfActive(data);
   });
 
@@ -73,11 +74,13 @@ export const connectWithSocketServer = (userDetails) => {
 };
 
 export const sendDirectMessage = (data) => {
-  console.log(data);
+  console.log("sendDirectMessage_direct-message", data);
   socket.emit("direct-message", data);
 };
 
 export const getDirectChatHistory = (data) => {
+  console.log("getDirectChatHistory_direct-message", data);
+
   socket.emit("direct-chat-history", data);
 };
 

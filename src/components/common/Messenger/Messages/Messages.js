@@ -3,23 +3,12 @@ import { useSelector } from "react-redux";
 import Message from "./Message";
 import DateSeparator from "./DateSeparator";
 import { dummy_data } from "./DUMMY_MESSAGES";
-
-const convertDateToHumanReadable = (date, format) => {
-  const map = {
-    mm: date.getMonth() + 1,
-    dd: date.getDate(),
-    yy: date.getFullYear().toString().slice(-2),
-    yyyy: date.getFullYear(),
-  };
-
-  return format.replace(/mm|dd|yy|yyy/gi, (matched) => map[matched]);
-};
+import { convertDateToHumanReadable } from "../../../../utils/convertDate";
 
 const Messages = () => {
   const messages = useSelector((state) => state.chat.messages);
-  const chosenChatDetails = useSelector(
-    (state) => state.chat.chosenChatDetails
-  );
+  const currentUserId = useSelector((state) => state.user?.id); // Add this line
+
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -48,6 +37,7 @@ const Messages = () => {
                   "dd/mm/yy"
                 );
 
+            // Messages.js
             return (
               <div key={message?._id} style={{ width: "97%" }}>
                 {(!sameDay || index === 0) && (
@@ -67,6 +57,7 @@ const Messages = () => {
                     "dd/mm/yy"
                   )}
                   sameDay={sameDay}
+                  isCurrentUser={message?.author?._id === currentUserId}
                 />
               </div>
             );

@@ -35,9 +35,9 @@ export const updateActiveRooms = (data) => {
   const friends = store.getState().friends.friends;
   const rooms = [];
 
-  const userId = store.getState().auth.userDetails?._id;
-
-  activeRooms.forEach((room) => {
+  const userId = store.getState().user.id || null;
+  console.log("userId", userId);
+  activeRooms?.forEach((room) => {
     const isRoomCreatedByMe = room.roomCreator.userId === userId;
 
     if (isRoomCreatedByMe) {

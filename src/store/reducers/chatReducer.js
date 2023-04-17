@@ -13,7 +13,7 @@ export const chatReducer = (state = initState, action) => {
         ...state,
         chosenChatDetails: action.chatDetails,
         chatType: action.chatType,
-        messages: [],
+        messages: action.messages,
       };
     case chatActions.SET_MESSAGES:
       return {
