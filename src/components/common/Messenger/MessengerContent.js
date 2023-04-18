@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Messages from "./Messages/Messages";
+import Messages from "./Messages";
 import NewMessageInput from "./NewMessageInput";
-import { getDirectChatHistory } from "../realtimeCommunication/socketConnection";
+import { getDirectChatHistory } from "../Realtime-communication/socketConnection";
 import { setMessages } from "../../../store/actions/chatActions";
 import "./MessengerContent.scss";
-import MessagesHeader from "./Messages/MessagesHeader";
+import MessagesHeader from "./MessagesHeader";
 
 const MessengerContent = () => {
   const dispatch = useDispatch();

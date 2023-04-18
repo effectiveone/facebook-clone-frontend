@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import "./style.scss";
+import "./createPostPopup.scss";
 import EmojiPickerBackgrounds from "./EmojiPickerBackgrounds";
 import AddToYourPost from "./AddToYourPost";
 import ImagePreview from "./ImagePreview";

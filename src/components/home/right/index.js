@@ -1,9 +1,9 @@
-import { Dots, NewRoom, Search } from "../../../../assets/svg";
+import { Dots, NewRoom, Search } from "../../../assets/svg";
 import Contact from "./Contact";
 import React from "react";
 import "./style.css";
-import { useFriends } from "../../../../hooks/useFriends";
-import Messenger from "../../Messenger/Messenger";
+import { useFriends } from "../../../hooks/useFriends";
+import Messenger from "../../common/Messenger/Messenger";
 export default function RightHome() {
   const { data, friends } = useFriends();
 

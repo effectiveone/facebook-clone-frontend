@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllPosts } from "../store/actions/postsActions";
-import { connectWithSocketServer } from "../components/common/realtimeCommunication/socketConnection";
+import { connectWithSocketServer } from "../components/common/Realtime-communication/socketConnection";
 
 const useApp = () => {
   const [visible, setVisible] = useState(false);

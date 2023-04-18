@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import OnlineIndicator from "./OnlineIndicator";
-import { setChosenChatDetails } from "../../../../store/actions/chatActions";
-import { chatTypes } from "../../../../store/types/chartTypes";
+import { setChosenChatDetails } from "../../../store/actions/chatActions";
+import { chatTypes } from "../../../store/types/chartTypes";
 
 export default function Contact({ user, isOnline }) {
   const dispatch = useDispatch();

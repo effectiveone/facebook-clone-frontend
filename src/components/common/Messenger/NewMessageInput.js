@@ -6,7 +6,7 @@ import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
-import { sendDirectMessage } from "../realtimeCommunication/socketConnection";
+import { sendDirectMessage } from "../Realtime-communication/socketConnection";
 
 const NewMessageInput = () => {
   const [message, setMessage] = useState("");

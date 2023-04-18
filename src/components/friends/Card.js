@@ -9,8 +9,6 @@ export default function Card({ userr, type, allDate, key, second }) {
   const dispatch = useDispatch();
 
   const confirmHandler = async (invitationId) => {
-    console.log(`senderId: ${userr._id}, receiverId: ${second}}`);
-
     dispatch(
       acceptFriendInvitation({ senderId: userr._id, receiverId: second })
     );

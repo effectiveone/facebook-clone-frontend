@@ -4,7 +4,7 @@ import PhoneIcon from "@material-ui/icons/Phone";
 import MinimizeIcon from "@material-ui/icons/Minimize";
 import CloseIcon from "@material-ui/icons/Close";
 import { useDispatch } from "react-redux";
-import { setChosenChatDetails } from "../../../../store/actions/chatActions";
+import { setChosenChatDetails } from "../../../store/actions/chatActions";
 const MessagesHeader = ({ name }) => {
   const dispatch = useDispatch();
 

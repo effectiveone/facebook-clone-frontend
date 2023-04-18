@@ -2,8 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Message from "./Message";
 import DateSeparator from "./DateSeparator";
-import { dummy_data } from "./DUMMY_MESSAGES";
-import { convertDateToHumanReadable } from "../../../../utils/convertDate";
+import { convertDateToHumanReadable } from "../../../utils/convertDate";
 
 const Messages = () => {
   const messages = useSelector((state) => state.chat.messages);

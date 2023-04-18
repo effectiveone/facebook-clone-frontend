@@ -1,7 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import Avatar from "./Avatar";
-import Typography from "@mui/material/Typography";
 
 const Message = ({
   content,
@@ -11,8 +9,6 @@ const Message = ({
   sameDay,
   isCurrentUser,
 }) => {
-  const currentUserId = useSelector((state) => state.user?.id);
-
   const messageStyle = isCurrentUser
     ? {
         justifyContent: "flex-start",

@@ -1,6 +1,6 @@
-import { ArrowRight, Plus } from "../../../../assets/svg";
+import { ArrowRight, Plus } from "../../../assets/svg";
 import "./style.css";
-import { stories } from "../../../../assets/data/home";
+import { stories } from "../../../assets/data/home";
 import Story from "./Story";
 import { useMediaQuery } from "react-responsive";
 export default function Stories() {

@@ -1,10 +1,10 @@
 import { HashLoader } from "react-spinners";
 import CreatePost from "../common/createPost";
 import Header from "../common/header";
-import LeftHome from "../common/home/left";
-import RightHome from "../common/home/right";
-import SendVerification from "../common/home/sendVerification";
-import Stories from "../common/home/stories";
+import LeftHome from "./left";
+import RightHome from "./right";
+import SendVerification from "./sendVerification";
+import Stories from "./stories";
 import Post from "../common/post";
 import "./style.scss";
 import { useAppContext } from "../../context/useAppContext";

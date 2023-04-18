@@ -11,7 +11,7 @@ import Post from "../common/post";
 import Photos from "./Photos";
 import Friends from "./Friends";
 import Intro from "../common/intro";
-import CreatePostPopup from "../common/createPostPopup";
+import CreatePostPopup from "../common/createPost/createPostPopup";
 import Skeleton from "react-loading-skeleton";
 import { HashLoader } from "react-spinners";
 import "react-loading-skeleton/dist/skeleton.css";

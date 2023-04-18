@@ -6,7 +6,7 @@ import LoggedInRoutes from "./utils/LoggedInRoutes";
 import NotLoggedInRoutes from "./utils/NotLoggedInRoutes";
 import Activate from "./components/home/activate";
 import ResetPage from "./pages/ResetPage";
-import CreatePostPopup from "./components/common/createPostPopup";
+import CreatePostPopup from "./components/common/createPost/createPostPopup";
 import FriendsPage from "./pages/FriendsPage";
 import AppProvider, { useAppContext } from "./context/useAppContext";
 
