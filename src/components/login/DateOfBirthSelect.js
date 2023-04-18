@@ -25,25 +25,34 @@ export default function DateOfBirthSelect({
       style={{ marginBottom: `${dateError && !view3 ? "90px" : "0"}` }}
     >
       <select name="bDay" value={bDay} onChange={handleRegisterChange}>
-        {days.map((day, i) => (
-          <option value={day} key={i}>
-            {day}
-          </option>
-        ))}
+        {days &&
+          Array.isArray(days) &&
+          days.length > 0 &&
+          days?.map((day, i) => (
+            <option value={day} key={i}>
+              {day}
+            </option>
+          ))}
       </select>
       <select name="bMonth" value={bMonth} onChange={handleRegisterChange}>
-        {months.map((month, i) => (
-          <option value={month} key={i}>
-            {month}
-          </option>
-        ))}
+        {months &&
+          Array.isArray(months) &&
+          months.length > 0 &&
+          months.map((month, i) => (
+            <option value={month} key={i}>
+              {month}
+            </option>
+          ))}
       </select>
       <select name="bYear" value={bYear} onChange={handleRegisterChange}>
-        {years.map((year, i) => (
-          <option value={year} key={i}>
-            {year}
-          </option>
-        ))}
+        {years &&
+          Array.isArray(years) &&
+          years.length > 0 &&
+          years.map((year, i) => (
+            <option value={year} key={i}>
+              {year}
+            </option>
+          ))}
       </select>
       {dateError && (
         <div

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import SearchAccount from "./SearchAccount";
 import SendEmail from "./SendEmail";
 import CodeVerification from "./CodeVerification";
-import Footer from "../common/login/Footer";
+import Footer from "../login/Footer";
 import ChangePassword from "./ChangePassword";
 import { useResetContext } from "../../context/useResetContext";
 

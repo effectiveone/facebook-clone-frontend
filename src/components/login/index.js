@@ -1,7 +1,7 @@
 import "./style.scss";
-import LoginForm from "../common/login/LoginForm";
-import Footer from "../common/login/Footer";
-import RegisterForm from "../common/login/RegisterForm";
+import LoginForm from "./LoginForm";
+import Footer from "./Footer";
+import RegisterForm from "./RegisterForm";
 import { useState } from "react";
 
 export default function Login() {

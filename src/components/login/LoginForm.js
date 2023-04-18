@@ -1,13 +1,14 @@
 import { Formik, Form } from "formik";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
-import LoginInput from "../inputs/loginInput";
+
 import { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import DotLoader from "react-spinners/DotLoader";
+import LoginInput from "../common/inputs/loginInput/index";
 
 const loginInfos = {
   email: "",
