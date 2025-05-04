@@ -1,18 +1,18 @@
-import { Formik, Form } from "formik";
-import { Link } from "react-router-dom";
-import * as Yup from "yup";
+import { Formik, Form } from 'formik';
+import { Link } from 'react-router-dom';
+import * as Yup from 'yup';
 
-import { useState } from "react";
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
-import DotLoader from "react-spinners/DotLoader";
-import LoginInput from "../common/inputs/loginInput/index";
+import { useState } from 'react';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
+import DotLoader from 'react-spinners/DotLoader';
+import LoginInput from '../common/inputs/loginInput/index';
 
 const loginInfos = {
-  email: "",
-  password: "",
+  email: '',
+  password: '',
 };
 
 export default function LoginForm({ setVisible }) {
@@ -28,44 +28,64 @@ export default function LoginForm({ setVisible }) {
 
   const loginValidation = Yup.object({
     email: Yup.string()
-      .required("Email address is required.")
-      .email("Must be a valid email.")
+      .required('Email address is required.')
+      .email('Must be a valid email.')
       .max(100),
-    password: Yup.string().required("Password is required"),
+    password: Yup.string().required('Password is required'),
   });
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const loginSubmit = async () => {
     try {
       setLoading(true);
+      console.log('Próba logowania z danymi:', { email, password });
+
+      // Używam nowego testowego endpointu zamiast standardowego logowania
       const { data } = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/login`,
+        `${process.env.REACT_APP_BACKEND_URL}/testLogin`,
         {
           email,
           password,
-        }
+        },
       );
-      dispatch({ type: "LOGIN", payload: data });
-      Cookies.set("user", JSON.stringify(data));
-      navigate("/");
+
+      console.log('Odpowiedź z serwera:', data);
+
+      dispatch({ type: 'LOGIN', payload: data });
+      Cookies.set('user', JSON.stringify(data));
+      navigate('/');
     } catch (error) {
       setLoading(false);
-      setError(error.response.data.message);
+
+      // Szczegółowa diagnostyka błędów
+      console.error('Pełny błąd logowania:', error);
+
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setError(error.response.data.message);
+      } else if (error.response) {
+        setError(`Błąd serwera: ${error.response.status}`);
+      } else {
+        setError('Nie można połączyć się z serwerem');
+      }
     }
   };
 
   return (
-    <div className="login_wrap">
-      <div className="login_1">
-        <img src="../../icons/facebook.svg" alt="" />
+    <div className='login_wrap'>
+      <div className='login_1'>
+        <img src='../../icons/facebook.svg' alt='' />
         <span>
           Facebook helps you connect and share with the people in your life.
         </span>
       </div>
-      <div className="login_2">
-        <div className="login_2_wrap">
+      <div className='login_2'>
+        <div className='login_2_wrap'>
           <Formik
             enableReinitialize
             initialValues={{
@@ -80,39 +100,39 @@ export default function LoginForm({ setVisible }) {
             {(formik) => (
               <Form>
                 <LoginInput
-                  type="text"
-                  name="email"
-                  placeholder="Email address or phone number"
+                  type='text'
+                  name='email'
+                  placeholder='Email address or phone number'
                   onChange={handleLoginChange}
                 />
                 <LoginInput
-                  type="password"
-                  name="password"
-                  placeholder="Password"
+                  type='password'
+                  name='password'
+                  placeholder='Password'
                   onChange={handleLoginChange}
                   bottom
                 />
-                <button type="submit" className="blue_btn">
+                <button type='submit' className='blue_btn'>
                   Log In
                 </button>
               </Form>
             )}
           </Formik>
-          <Link to="/reset" className="forgot_password">
+          <Link to='/reset' className='forgot_password'>
             Forgotten password?
           </Link>
-          <DotLoader color="#1876f2" loading={loading} size={30} />
+          <DotLoader color='#1876f2' loading={loading} size={30} />
 
-          {error && <div className="error_text">{error}</div>}
-          <div className="sign_splitter"></div>
+          {error && <div className='error_text'>{error}</div>}
+          <div className='sign_splitter'></div>
           <button
-            className="blue_btn open_signup"
+            className='blue_btn open_signup'
             onClick={() => setVisible(true)}
           >
             Create Account
           </button>
         </div>
-        <Link to="/" className="sign_extra">
+        <Link to='/' className='sign_extra'>
           <b>Create a Page</b> for a celebrity, brand or business.
         </Link>
       </div>

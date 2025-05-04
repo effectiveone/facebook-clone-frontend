@@ -10,49 +10,51 @@ export default function DateOfBirthSelect({
   handleRegisterChange,
   dateError,
 }) {
-  const view1 = useMediaQuery({
-    query: "(min-width: 539px)",
-  });
-  const view2 = useMediaQuery({
-    query: "(min-width: 850px)",
-  });
   const view3 = useMediaQuery({
     query: "(min-width: 1170px)",
   });
+  
   return (
     <div
       className="reg_grid"
       style={{ marginBottom: `${dateError && !view3 ? "90px" : "0"}` }}
+      data-testid="dob-select"
     >
-      <select name="bDay" value={bDay} onChange={handleRegisterChange}>
-        {days &&
-          Array.isArray(days) &&
-          days.length > 0 &&
-          days?.map((day, i) => (
-            <option value={day} key={i}>
-              {day}
-            </option>
-          ))}
+      <select
+        name="bDay"
+        value={bDay}
+        onChange={handleRegisterChange}
+        aria-label="Day"
+      >
+        {days && days.map((day) => (
+          <option value={day} key={day}>
+            {day}
+          </option>
+        ))}
       </select>
-      <select name="bMonth" value={bMonth} onChange={handleRegisterChange}>
-        {months &&
-          Array.isArray(months) &&
-          months.length > 0 &&
-          months.map((month, i) => (
-            <option value={month} key={i}>
-              {month}
-            </option>
-          ))}
+      <select
+        name="bMonth"
+        value={bMonth}
+        onChange={handleRegisterChange}
+        aria-label="Month"
+      >
+        {months && months.map((month) => (
+          <option value={month} key={month}>
+            {month}
+          </option>
+        ))}
       </select>
-      <select name="bYear" value={bYear} onChange={handleRegisterChange}>
-        {years &&
-          Array.isArray(years) &&
-          years.length > 0 &&
-          years.map((year, i) => (
-            <option value={year} key={i}>
-              {year}
-            </option>
-          ))}
+      <select
+        name="bYear"
+        value={bYear}
+        onChange={handleRegisterChange}
+        aria-label="Year"
+      >
+        {years && years.map((year) => (
+          <option value={year} key={year}>
+            {year}
+          </option>
+        ))}
       </select>
       {dateError && (
         <div

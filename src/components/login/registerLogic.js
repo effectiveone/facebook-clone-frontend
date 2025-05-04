@@ -1,58 +1,66 @@
-import * as Yup from "yup";
-import axios from "axios";
-import Cookies from "js-cookie";
+import * as Yup from 'yup';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { debugRegister } from '../common/debug';
 
 export const registerLogic = {
   registerValidation: Yup.object({
     first_name: Yup.string()
-      .required("What's your First name ?")
-      .min(2, "Fisrt name must be between 2 and 16 characters.")
-      .max(16, "Fisrt name must be between 2 and 16 characters.")
-      .matches(/^[aA-zZ]+$/, "Numbers and special characters are not allowed."),
+      .required('Imię jest wymagane')
+      .min(2, 'Imię musi mieć od 2 do 16 znaków')
+      .max(16, 'Imię musi mieć od 2 do 16 znaków'),
     last_name: Yup.string()
-      .required("What's your Last name ?")
-      .min(2, "Last name must be between 2 and 16 characters.")
-      .max(16, "Last name must be between 2 and 16 characters.")
-      .matches(/^[aA-zZ]+$/, "Numbers and special characters are not allowed."),
+      .required('Nazwisko jest wymagane')
+      .min(2, 'Nazwisko musi mieć od 2 do 16 znaków')
+      .max(16, 'Nazwisko musi mieć od 2 do 16 znaków'),
     email: Yup.string()
-      .required(
-        "You'll need this when you log in and if you ever need to reset your password."
-      )
-      .email("Enter a valid email address."),
+      .required('Email jest wymagany do logowania i reset hasła')
+      .email('Wprowadź poprawny adres email'),
     password: Yup.string()
-      .required(
-        "Enter a combination of at least six numbers,letters and punctuation marks(such as ! and &)."
-      )
-      .min(6, "Password must be atleast 6 characters.")
-      .max(36, "Password can't be more than 36 characters"),
+      .required('Hasło jest wymagane')
+      .min(6, 'Hasło musi mieć co najmniej 6 znaków')
+      .max(36, 'Hasło nie może być dłuższe niż 36 znaków'),
   }),
+
   registerSubmit: async function (
     user,
     dispatch,
     navigate,
     setError,
     setSuccess,
-    setLoading
+    setLoading,
   ) {
     try {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/register`,
-        {
-          ...user,
-        }
-      );
-      setError("");
-      setSuccess(data.message);
+      // Wyślij żądanie rejestracji do serwera
+      console.log('Wysyłane dane:', user);
+
+      // Użyj funkcji debug do rejestracji
+      const data = await debugRegister(user);
+
+      // Sprawdź odpowiedź
+      if (data.error) {
+        setLoading(false);
+        setError(data.message || data.error);
+        return;
+      }
+
+      setError('');
+      setSuccess(data.message || 'Rejestracja zakończona sukcesem!');
+
+      // Zapisz dane użytkownika i przekieruj
       const { message, ...rest } = data;
       setTimeout(() => {
-        dispatch({ type: "LOGIN", payload: rest });
-        Cookies.set("user", JSON.stringify(rest));
-        navigate("/");
+        dispatch({ type: 'LOGIN', payload: rest });
+        Cookies.set('user', JSON.stringify(rest));
+        navigate('/');
       }, 2000);
     } catch (error) {
+      console.error('Pełny błąd rejestracji:', error);
       setLoading(false);
-      setSuccess("");
-      setError(error.response.data.message);
+      setSuccess('');
+
+      // Bezpieczna obsługa błędów
+      setError('Wystąpił nieoczekiwany błąd. Spróbuj ponownie później.');
     }
   },
 };

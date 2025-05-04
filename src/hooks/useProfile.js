@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useParams } from "react-router-dom";
@@ -8,13 +8,13 @@ import { getProfile } from "../store/actions/profileActions";
 export const useProfile = () => {
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
-  const { user } = useSelector((state) => ({ ...state }));
+  const user = useSelector((state) => state.user);
   const [photos, setPhotos] = useState({});
   const { username } = useParams();
 
   const userName = username === undefined ? user.username : username;
 
-  const profile = useSelector((state) => state?.profile);
+  const profile = useSelector((state) => state.profile);
   const { loading, error } = profile;
   const dispatch = useDispatch();
 
@@ -29,6 +29,7 @@ export const useProfile = () => {
   const [height, setHeight] = useState();
   const [leftHeight, setLeftHeight] = useState();
   const [scrollHeight, setScrollHeight] = useState();
+  
   useEffect(() => {
     setHeight(profileTop.current.clientHeight + 300);
     setLeftHeight(leftSide.current.clientHeight);
@@ -37,9 +38,11 @@ export const useProfile = () => {
       window.removeEventListener("scroll", getScroll, { passive: true });
     };
   }, [loading, scrollHeight]);
+  
   const check = useMediaQuery({
     query: "(min-width:901px)",
   });
+  
   const getScroll = () => {
     setScrollHeight(window.pageYOffset);
   };
@@ -55,25 +58,24 @@ export const useProfile = () => {
       setOthername(profile.details.otherName);
     }
   }, [profile]);
-
-  return {
-    visible,
-    username,
-    navigate,
-    user,
-    photos,
+  
+  return useMemo(() => ({
     loading,
+    error,
     profile,
     visitor,
-    othername,
-    height,
     profileTop,
     leftSide,
+    height,
     leftHeight,
     scrollHeight,
-    setVisible,
     check,
-    setOthername,
-    userName,
-  };
+    photos,
+    othername,
+    visible,
+    setVisible,
+  }), [
+    loading, error, profile, visitor, profileTop, leftSide, 
+    height, leftHeight, scrollHeight, check, photos, othername, visible
+  ]);
 };

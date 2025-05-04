@@ -25,7 +25,7 @@ const RoutePicker = () => {
 
   return (
     <>
-      <div className={darkTheme && "dark"}>
+      <div className={darkTheme ? "dark" : ""}>
         {visible && <CreatePostPopup />}
         <Routes>
           <Route element={<LoggedInRoutes />}>
