@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 body {
-  font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 html {
   overflow-y: scroll;
@@ -154,3 +154,120 @@ a {
     brightness(97%) contrast(96%);
 }
 /*----filters---*/
+
+/* Style dla menu postów */
+.menu-container {
+  max-width: 800px;
+  margin: 20px auto;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  z-index: 999;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 300px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background-color: #f9f9f9;
+}
+
+.menu-item.selected {
+  background-color: #e7f3ff;
+  border: 2px solid #4285f4;
+  border-radius: 8px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-text {
+  flex: 1;
+}
+
+.menu-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #202124;
+  margin: 0;
+}
+
+.menu-subtitle {
+  font-size: 14px;
+  color: #5f6368;
+  margin: 4px 0 0;
+}
+
+.divider {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 4px 0;
+}
+
+/* Style dla edycji postu */
+.edit_post_form {
+  padding: 15px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+.edit_textarea {
+  width: 100%;
+  min-height: 100px;
+  resize: none;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 15px;
+  font-family: inherit;
+  margin-bottom: 10px;
+}
+
+.edit_post_buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.edit_post_cancel,
+.edit_post_submit {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.edit_post_cancel {
+  background-color: #e4e6eb;
+  color: #333;
+}
+
+.edit_post_submit {
+  background-color: #1877f2;
+  color: white;
+}
+
+.edit_post_submit:hover {
+  background-color: #166fe5;
+}
+
+.edit_post_cancel:hover {
+  background-color: #d8dadf;
+}

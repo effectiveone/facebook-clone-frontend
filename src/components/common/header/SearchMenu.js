@@ -1,22 +1,28 @@
-import { useEffect, useRef, useCallback, useState } from "react";
-import { Return, Search } from "../../../assets/svg";
-import useClickOutside from "../../../utils/clickOutside";
+import { useEffect, useRef, useCallback, useState } from 'react';
+import { Return, Search } from '../../../assets/svg';
+import useClickOutside from '../../../utils/clickOutside';
 import {
   addToSearchHistory,
   getSearchHistory,
   removeFromSearch,
   search,
-} from "../../../store/actions/userActions";
-import { Link } from "react-router-dom";
-import { useAppContext } from "../../../context/useAppContext";
+} from '../../../store/actions/userActions';
+import { Link } from 'react-router-dom';
+import { useAppContext } from '../../../context/useAppContext';
+import { useSelector } from 'react-redux';
 
 export default function SearchMenu({ color, setShowSearchMenu }) {
+  // Pobieramy token z Reduxa
+  const userState = useSelector((state) => state.user);
+  const token = userState?.token;
+
   const { user } = useAppContext();
-  const { token } = user;
   const [iconVisible, setIconVisible] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
   const [searchHistory, setSearchHistory] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const menu = useRef(null);
   const input = useRef(null);
 
@@ -25,58 +31,130 @@ export default function SearchMenu({ color, setShowSearchMenu }) {
   });
 
   const getHistory = useCallback(async () => {
-    // eslint-disable-next-line
-    const res = await getSearchHistory(token);
-    setSearchHistory(res);
+    if (!token) {
+      setError('Brak tokena, nie można pobrać historii wyszukiwania');
+      return;
+    }
+
+    try {
+      // Przekazujemy token do funkcji API
+      const res = await getSearchHistory()()(token);
+
+      if (res && Array.isArray(res)) {
+        setSearchHistory(res);
+      } else {
+        setError('Problem z pobieraniem historii wyszukiwania');
+      }
+    } catch (err) {
+      setError('Błąd podczas pobierania historii wyszukiwania');
+    }
   }, [token]);
 
   useEffect(() => {
-    input.current.focus();
+    if (input.current) {
+      try {
+        input.current.focus();
+      } catch (err) {
+        setError('Błąd podczas ustawiania focus');
+      }
+    }
   }, []);
 
   const searchHandler = useCallback(async () => {
-    console.log("tokensearchHandler", token);
-    console.log("searchTerm_searchHandler", searchTerm);
-
-    // If the searchTerm is an empty string, set the results to an empty array
-    if (searchTerm === "") {
-      setResults([]);
-    } else {
-      // Call the search function with the searchTerm
-      const searchFunction = search(searchTerm);
-
-      // Pass the data and token as separate arguments to searchFunction
-      const res = await searchFunction({}, token)();
-
-      // Alternatively, you can use .then and .catch for handling promises
-      // searchFunction({}, token)().then(console.log).catch(console.error);
-
-      // Update the results with the received data
-      setResults(res);
+    if (!token) {
+      setError('Brak tokena autoryzacyjnego. Wymagane ponowne zalogowanie.');
+      return;
     }
-  }, [search, searchTerm, token]);
+
+    if (!searchTerm.trim()) {
+      setResults([]);
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      // Przekazujemy token do funkcji search
+      const res = await search(searchTerm)()(token);
+
+      if (res && Array.isArray(res)) {
+        setResults(res);
+      } else {
+        setError(
+          'Nie udało się pobrać wyników wyszukiwania: ' +
+            (res || 'Brak odpowiedzi'),
+        );
+        setResults([]);
+      }
+    } catch (err) {
+      setError(`Wystąpił błąd: ${err.message || 'Nieznany błąd'}`);
+      setResults([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [searchTerm, token]);
 
   useEffect(() => {
     getHistory();
   }, [getHistory]);
 
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (searchTerm.trim()) {
+        searchHandler();
+      }
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm, searchHandler]);
+
   const addToSearchHistoryHandler = async (searchUser) => {
-    // eslint-disable-next-line
-    const res = await addToSearchHistory(searchUser, token);
-    getHistory();
+    if (!token) {
+      setError('Brak tokena, nie można dodać do historii wyszukiwania');
+      return;
+    }
+
+    try {
+      // Przekazujemy token do funkcji API
+      await addToSearchHistory(searchUser)()(token);
+      getHistory();
+    } catch (err) {
+      setError('Błąd podczas dodawania do historii');
+    }
   };
 
   const handleRemove = async (searchUser) => {
-    removeFromSearch(searchUser, token);
-    getHistory();
+    if (!token) {
+      setError('Brak tokena, nie można usunąć z historii wyszukiwania');
+      return;
+    }
+
+    try {
+      // Przekazujemy token do funkcji API
+      await removeFromSearch(searchUser)()(token);
+      getHistory();
+    } catch (err) {
+      setError('Błąd podczas usuwania z historii');
+    }
+  };
+
+  const refreshToken = () => {
+    try {
+      alert(
+        'Prosimy o wylogowanie i ponowne zalogowanie się do aplikacji, aby odświeżyć sesję.',
+      );
+    } catch (err) {
+      setError('Błąd podczas odświeżania sesji');
+    }
   };
 
   return (
-    <div className="header_left search_area scrollbar" ref={menu}>
-      <div className="search_wrap">
-        <div className="header_logo">
+    <div className='header_left search_area scrollbar' ref={menu}>
+      <div className='search_wrap'>
+        <div className='header_logo'>
           <div
-            className="circle hover1"
+            className='circle hover1'
             onClick={() => {
               setShowSearchMenu(false);
             }}
@@ -85,9 +163,11 @@ export default function SearchMenu({ color, setShowSearchMenu }) {
           </div>
         </div>
         <div
-          className="search"
+          className='search'
           onClick={() => {
-            input.current.focus();
+            if (input.current) {
+              input.current.focus();
+            }
           }}
         >
           {iconVisible && (
@@ -96,12 +176,11 @@ export default function SearchMenu({ color, setShowSearchMenu }) {
             </div>
           )}
           <input
-            type="text"
-            placeholder="Search Facebook"
+            type='text'
+            placeholder='Wyszukaj użytkowników'
             ref={input}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyUp={searchHandler}
             onFocus={() => {
               setIconVisible(false);
             }}
@@ -111,15 +190,31 @@ export default function SearchMenu({ color, setShowSearchMenu }) {
           />
         </div>
       </div>
-      {results === "" && (
-        <div className="search_history_header">
-          <span>Recent searches</span>
-          <a>Edit</a>
+
+      {error && (
+        <div className='search_results_error'>
+          {error}
+          <button
+            onClick={refreshToken}
+            style={{ marginLeft: '10px', padding: '2px 5px' }}
+          >
+            Odśwież sesję
+          </button>
         </div>
       )}
-      <div className="search_history scrollbar">
+
+      {/* Historia wyszukiwania */}
+      {searchTerm === '' && !error && (
+        <div className='search_history_header'>
+          <span>Ostatnie wyszukiwania</span>
+          <a>Edytuj</a>
+        </div>
+      )}
+
+      <div className='search_history scrollbar'>
         {searchHistory &&
-          results === "" &&
+          searchTerm === '' &&
+          !error &&
           Array.isArray(searchHistory) &&
           searchHistory.length > 0 &&
           searchHistory
@@ -127,19 +222,19 @@ export default function SearchMenu({ color, setShowSearchMenu }) {
               return new Date(b.createdAt) - new Date(a.createdAt);
             })
             .map((user) => (
-              <div className="search_user_item hover1" key={user._id}>
+              <div className='search_user_item hover1' key={user._id}>
                 <Link
-                  className="flex"
+                  className='flex'
                   to={`/profile/${user.user.username}`}
                   onClick={() => addToSearchHistoryHandler(user.user._id)}
                 >
-                  <img src={user?.user?.picture} alt="" />
-                  <span>
+                  <img src={user?.user?.picture} alt='' />
+                  <span style={{ color: '#000' }}>
                     {user?.user?.first_name} {user?.user?.last_name}
                   </span>
                 </Link>
                 <i
-                  className="exit_icon"
+                  className='exit_icon'
                   onClick={() => {
                     handleRemove(user.user._id);
                   }}
@@ -147,23 +242,39 @@ export default function SearchMenu({ color, setShowSearchMenu }) {
               </div>
             ))}
       </div>
-      <div className="search_results scrollbar">
-        {results &&
-          Array.isArray(results) &&
-          results.length > 0 &&
-          results?.map((user) => (
-            <Link
-              to={`/profile/${user.username}`}
-              className="search_user_item hover1"
-              onClick={() => addToSearchHistoryHandler(user._id)}
-              key={user._id}
-            >
-              <img src={user?.picture} alt="" />
-              <span>
-                {user?.first_name} {user?.last_name}
-              </span>
-            </Link>
-          ))}
+
+      {/* Wyniki wyszukiwania */}
+      <div className='search_results scrollbar'>
+        {loading ? (
+          <div className='search_results_loading'>Wyszukiwanie...</div>
+        ) : (
+          <>
+            {results &&
+              Array.isArray(results) &&
+              results.length > 0 &&
+              results.map((user) => (
+                <Link
+                  to={`/profile/${user.username}`}
+                  className='search_user_item hover1'
+                  onClick={() => addToSearchHistoryHandler(user._id)}
+                  key={user._id}
+                >
+                  <img src={user?.picture} alt='' />
+                  <span style={{ color: '#000' }}>
+                    {user?.first_name} {user?.last_name}
+                  </span>
+                </Link>
+              ))}
+            {searchTerm &&
+              results &&
+              Array.isArray(results) &&
+              results.length === 0 && (
+                <div className='search_results_empty'>
+                  Nie znaleziono użytkowników
+                </div>
+              )}
+          </>
+        )}
       </div>
     </div>
   );

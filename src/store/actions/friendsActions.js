@@ -1,17 +1,17 @@
 // actions/friendsActions.js
-import axios from "axios";
+import axios from 'axios';
 import {
   FRIENDS_REQUEST,
   FRIENDS_SUCCESS,
   FRIENDS_ERROR,
-} from "../types/friendsTypes";
-import * as api from "../../api";
-import { openAlertMessage } from "./alertActions";
+} from '../types/friendsTypes';
+import * as api from '../../api';
+import { openAlertMessage } from './alertActions';
 
 export const friendsActions = {
-  SET_FRIENDS: "FRIENDS.SET_FRIENDS",
-  SET_PENDING_FRIENDS_INVITATIONS: "FRIENDS.SET_PENDING_FRIENDS_INVITATIONS",
-  SET_ONLINE_USERS: "FRIENDS.SET_ONLINE_USERS",
+  SET_FRIENDS: 'FRIENDS.SET_FRIENDS',
+  SET_PENDING_FRIENDS_INVITATIONS: 'FRIENDS.SET_PENDING_FRIENDS_INVITATIONS',
+  SET_ONLINE_USERS: 'FRIENDS.SET_ONLINE_USERS',
 };
 
 export const friendsRequest = () => ({
@@ -28,20 +28,20 @@ export const friendsError = (payload) => ({
   payload,
 });
 
-export const getFriendsPageInfos = (token) => async (dispatch) => {
+export const getFriendsPageInfos = () => async (dispatch) => {
   dispatch(friendsRequest());
   try {
     const { data } = await axios.get(
       `${process.env.REACT_APP_BACKEND_URL}/getFriendsPageInfos`,
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('user'))?.token}`,
         },
-      }
+      },
     );
     dispatch(friendsSuccess(data));
   } catch (error) {
-    dispatch(friendsError(error.response?.data?.message || "Error"));
+    dispatch(friendsError(error.response?.data?.message || 'Error'));
   }
 };
 
@@ -76,14 +76,14 @@ export const setOnlineUsers = (onlineUsers) => {
 };
 
 const sendFriendInvitation = (data) => {
-  console.log("sendFriendInvitation", data);
+  console.log('sendFriendInvitation', data);
   return async (dispatch) => {
     const response = await api.sendFriendInvitation(data);
 
     if (response.error) {
       dispatch(openAlertMessage(response.exception?.response?.data));
     } else {
-      dispatch(openAlertMessage("Invitation has been sent!"));
+      dispatch(openAlertMessage('Invitation has been sent!'));
     }
   };
 };
@@ -95,7 +95,7 @@ const acceptFriendInvitation = ({ senderId, receiverId }) => {
     if (response.error) {
       dispatch(openAlertMessage(response.exception?.response?.data));
     } else {
-      dispatch(openAlertMessage("Invitation accepted!"));
+      dispatch(openAlertMessage('Invitation accepted!'));
     }
   };
 };
@@ -110,7 +110,7 @@ const rejectFriendInvitation = ({ senderId, receiverId }) => {
     if (response.error) {
       dispatch(openAlertMessage(response.exception?.response?.data));
     } else {
-      dispatch(openAlertMessage("Invitation rejected!"));
+      dispatch(openAlertMessage('Invitation rejected!'));
     }
   };
 };

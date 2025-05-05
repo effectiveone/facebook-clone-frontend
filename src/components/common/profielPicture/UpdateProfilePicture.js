@@ -1,12 +1,12 @@
-import { useCallback, useRef, useState } from "react";
-import Cropper from "react-easy-crop";
-import { useDispatch, useSelector } from "react-redux";
-import { createPost } from "../../../store/actions/postsActions";
-import { uploadImages } from "../../../store/actions/uploadImages";
-import { updateprofilePicture } from "../../../store/actions/userActions";
-import getCroppedImg from "../../../utils/getCroppedImg";
-import PulseLoader from "react-spinners/PulseLoader";
-import Cookies from "js-cookie";
+import { useCallback, useRef, useState } from 'react';
+import Cropper from 'react-easy-crop';
+import { useDispatch, useSelector } from 'react-redux';
+import { createPost } from '../../../store/actions/postsActions';
+import { uploadImages } from '../../../store/actions/uploadImages';
+import { updateProfilePicture } from '../../../store/actions/userActions';
+import getCroppedImg from '../../../utils/getCroppedImg';
+import PulseLoader from 'react-spinners/PulseLoader';
+import Cookies from 'js-cookie';
 
 export default function UpdateProfilePicture({
   setImage,
@@ -16,7 +16,7 @@ export default function UpdateProfilePicture({
   pRef,
 }) {
   const dispatch = useDispatch();
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState('');
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
@@ -53,7 +53,7 @@ export default function UpdateProfilePicture({
         console.log(error);
       }
     },
-    [croppedAreaPixels, image, setImage]
+    [croppedAreaPixels, image, setImage],
   );
 
   /* eslint-disable-next-line */
@@ -64,32 +64,32 @@ export default function UpdateProfilePicture({
       const blob = await fetch(img).then((b) => b.blob());
       const path = `${user.username}/profile_pictures`;
       const formData = new FormData();
-      formData.append("file", blob);
-      formData.append("path", path);
+      formData.append('file', blob);
+      formData.append('path', path);
       const res = await uploadImages(formData, path, user.token);
-      const updatedPicture = await updateprofilePicture(res[0].url, user.token);
-      if (updatedPicture === "ok") {
+      const updatedPicture = await updateProfilePicture(res[0].url, user.token);
+      if (updatedPicture === 'ok') {
         const newPost = await createPost(
-          "profilePicture",
+          'profilePicture',
           null,
           description,
           res,
           user.id,
-          user.token
+          user.token,
         );
-        if (newPost.status === "ok") {
+        if (newPost.status === 'ok') {
           setLoading(false);
-          setImage("");
+          setImage('');
           pRef.current.style.backgroundImage = `url(${res[0].url})`;
           Cookies.set(
-            "user",
+            'user',
             JSON.stringify({
               ...user,
               picture: res[0].url,
-            })
+            }),
           );
           dispatch({
-            type: "UPDATE_PICTURE",
+            type: 'UPDATE_PICTURE',
             payload: res[0].url,
           });
           setShow(false);
@@ -108,42 +108,42 @@ export default function UpdateProfilePicture({
   };
 
   return (
-    <div className="postBox update_img">
-      <div className="box_header">
-        <div className="small_circle" onClick={() => setImage("")}>
-          <i className="exit_icon"></i>
+    <div className='postBox update_img'>
+      <div className='box_header'>
+        <div className='small_circle' onClick={() => setImage('')}>
+          <i className='exit_icon'></i>
         </div>
         <span>Update profile picture</span>
       </div>
-      <div className="update_image_desc">
+      <div className='update_image_desc'>
         <textarea
-          placeholder="Description"
+          placeholder='Description'
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="textarea_blue details_input"
+          className='textarea_blue details_input'
         ></textarea>
       </div>
 
-      <div className="update_center">
-        <div className="crooper">
+      <div className='update_center'>
+        <div className='crooper'>
           <Cropper
             image={image}
             crop={crop}
             zoom={zoom}
             aspect={1 / 1}
-            cropShape="round"
+            cropShape='round'
             onCropChange={setCrop}
             onCropComplete={onCropComplete}
             onZoomChange={setZoom}
             showGrid={false}
           />
         </div>
-        <div className="slider">
-          <div className="slider_circle hover1" onClick={() => zoomOut()}>
-            <i className="minus_icon"></i>
+        <div className='slider'>
+          <div className='slider_circle hover1' onClick={() => zoomOut()}>
+            <i className='minus_icon'></i>
           </div>
           <input
-            type="range"
+            type='range'
             min={1}
             max={3}
             step={0.2}
@@ -151,33 +151,33 @@ export default function UpdateProfilePicture({
             value={zoom}
             onChange={(e) => setZoom(e.target.value)}
           />
-          <div className="slider_circle hover1" onClick={() => zoomIn()}>
-            <i className="plus_icon"></i>
+          <div className='slider_circle hover1' onClick={() => zoomIn()}>
+            <i className='plus_icon'></i>
           </div>
         </div>
       </div>
-      <div className="flex_up">
-        <div className="gray_btn" onClick={() => getCroppedImage("show")}>
-          <i className="crop_icon"></i>Crop photo
+      <div className='flex_up'>
+        <div className='gray_btn' onClick={() => getCroppedImage('show')}>
+          <i className='crop_icon'></i>Crop photo
         </div>
-        <div className="gray_btn">
-          <i className="temp_icon"></i>Make Temporary
+        <div className='gray_btn'>
+          <i className='temp_icon'></i>Make Temporary
         </div>
       </div>
-      <div className="flex_p_t">
-        <i className="public_icon"></i>
+      <div className='flex_p_t'>
+        <i className='public_icon'></i>
         Your profile picture is public
       </div>
-      <div className="update_submit_wrap">
-        <div className="blue_link" onClick={() => setImage("")}>
+      <div className='update_submit_wrap'>
+        <div className='blue_link' onClick={() => setImage('')}>
           Cancel
         </div>
         <button
-          className="blue_btn"
+          className='blue_btn'
           disabled={loading}
-          onClick={() => updateprofilePicture()}
+          onClick={() => updateProfilePicture()}
         >
-          {loading ? <PulseLoader color="#fff" size={5} /> : "Save"}
+          {loading ? <PulseLoader color='#fff' size={5} /> : 'Save'}
         </button>
       </div>
     </div>
