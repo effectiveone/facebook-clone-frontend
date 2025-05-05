@@ -37,9 +37,6 @@ export default function Header({ page }) {
   // Debug - sprawdzanie stanu Redux
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
-      console.log('Redux state:', state);
-      console.log('User w Redux:', user);
-
       // Sprawdzamy, gdzie jest token
       if (user?.token) {
         console.log('Token znaleziony w state.user.token');

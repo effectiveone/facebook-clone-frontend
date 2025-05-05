@@ -17,20 +17,12 @@ const makeRequest = (url, method) => (data) => async () => {
 
     if (token) {
       headers.Authorization = `Bearer ${token}`;
-      console.log(
-        `Token autoryzacji (pierwsze 10 znaków): ${token.substring(0, 10)}...`,
-      );
     } else {
       console.error('Brak tokena do autoryzacji żądania');
       // Możesz tu dodać przekierowanie do strony logowania
       // albo rzucić błąd, w zależności od wymagań
       throw new Error('Brak tokena autoryzacyjnego. Zaloguj się ponownie.');
     }
-
-    console.log('Nagłówki żądania:', headers);
-    console.log(
-      `Wysyłanie żądania ${method} do ${process.env.REACT_APP_BACKEND_URL}${url}`,
-    );
 
     const response = await axios({
       method,
