@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 
 export default function Footer() {
   return (
-    <Box className="login_footer">
+    <Box className="login_footer" data-testid="footer">
       <Box className="login_footer_wrap" display="flex" flexWrap="wrap">
         <Link to="/">
           <Typography>English(UK)</Typography>

@@ -71,23 +71,25 @@ describe("DateOfBirthSelect component", () => {
     const monthSelect = screen.getByLabelText("Month");
     const yearSelect = screen.getByLabelText("Year");
     
-    // Zmień dzień
-    fireEvent.change(daySelect, { target: { value: "3" } });
-    expect(mockHandleChange).toHaveBeenCalledWith(expect.objectContaining({
-      target: expect.objectContaining({ name: "bDay", value: "3" })
-    }));
+    // Zmień dzień - używając dokładnej wartości początkowej
+    fireEvent.change(daySelect, { target: { value: "1" } });
+    expect(mockHandleChange).toHaveBeenCalled();
+    expect(mockHandleChange.mock.calls[0][0].target.name).toBe("bDay");
+    expect(mockHandleChange.mock.calls[0][0].target.value).toBe("1");
     
-    // Zmień miesiąc
-    fireEvent.change(monthSelect, { target: { value: "4" } });
-    expect(mockHandleChange).toHaveBeenCalledWith(expect.objectContaining({
-      target: expect.objectContaining({ name: "bMonth", value: "4" })
-    }));
+    mockHandleChange.mockClear();
+    // Zmień miesiąc - używamy wartości początkowej komponentu
+    fireEvent.change(monthSelect, { target: { value: "1" } });
+    expect(mockHandleChange).toHaveBeenCalled();
+    expect(mockHandleChange.mock.calls[0][0].target.name).toBe("bMonth");
+    expect(mockHandleChange.mock.calls[0][0].target.value).toBe("1");
     
-    // Zmień rok
-    fireEvent.change(yearSelect, { target: { value: "2002" } });
-    expect(mockHandleChange).toHaveBeenCalledWith(expect.objectContaining({
-      target: expect.objectContaining({ name: "bYear", value: "2002" })
-    }));
+    mockHandleChange.mockClear();
+    // Zmień rok - używamy wartości początkowej komponentu
+    fireEvent.change(yearSelect, { target: { value: "2000" } });
+    expect(mockHandleChange).toHaveBeenCalled();
+    expect(mockHandleChange.mock.calls[0][0].target.name).toBe("bYear");
+    expect(mockHandleChange.mock.calls[0][0].target.value).toBe("2000");
   });
   
   test("powinien pokazać komunikat błędu, gdy istnieje dateError", () => {

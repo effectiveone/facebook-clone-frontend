@@ -83,7 +83,7 @@ export default function LoginForm({ setVisible }) {
   };
 
   return (
-    <div className='login_wrap'>
+    <div className="login_wrap" data-testid="login-form">
       <div className='login_1'>
         <img src='../../icons/facebook.svg' alt='' />
         <span>
@@ -134,6 +134,7 @@ export default function LoginForm({ setVisible }) {
           <button
             className='blue_btn open_signup'
             onClick={() => setVisible(true)}
+            data-testid="register-button"
           >
             Create Account
           </button>

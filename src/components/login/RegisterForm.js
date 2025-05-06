@@ -70,10 +70,6 @@ export default function RegisterForm({ setVisible }) {
   };
 
   const handleSubmit = () => {
-    // Resetujemy błędy
-    setDateError('');
-    setGenderError('');
-
     // Walidacja płci
     if (!gender) {
       setGenderError(
@@ -85,13 +81,21 @@ export default function RegisterForm({ setVisible }) {
     // Walidacja daty urodzenia (proste sprawdzenie)
     const today = new Date();
     const birthDate = new Date(bYear, bMonth - 1, bDay);
-    const age = today.getFullYear() - birthDate.getFullYear();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
 
     if (age < 13) {
       setDateError('Musisz mieć co najmniej 13 lat, aby utworzyć konto.');
       return;
     }
 
+    // Jeśli wszystko jest w porządku, wywołujemy logikę rejestracji
+    // Upewnij się, że błędy są czyszczone, jeśli walidacja przejdzie
+    setDateError('');
+    setGenderError('');
     // Przygotuj dane dla API
     const userData = {
       first_name,
@@ -120,7 +124,7 @@ export default function RegisterForm({ setVisible }) {
 
   return (
     <div className='blur'>
-      <div className='register'>
+      <div className='register' data-testid="register-form">
         <div className='register_header'>
           <i className='exit_icon' onClick={() => setVisible(false)}></i>
           <span>Zarejestruj się</span>

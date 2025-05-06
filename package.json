@@ -65,6 +65,8 @@
   "devDependencies": {
     "@babel/plugin-syntax-flow": "^7.14.5",
     "@babel/plugin-transform-react-jsx": "^7.14.9",
+    "@babel/preset-env": "^7.27.1",
+    "@babel/preset-react": "^7.27.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^15.0.6",
     "@testing-library/user-event": "^14.5.2",
@@ -73,6 +75,7 @@
     "eslint-plugin-jest": "^28.11.0",
     "isarray": "^2.0.5",
     "prettier": "^3.2.5",
+    "redux-mock-store": "^1.5.5",
     "safe-buffer": "^5.2.1"
   }
 }

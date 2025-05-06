@@ -14,6 +14,7 @@ export default function GenderSelect({ handleRegisterChange, genderError }) {
     <div
       className="reg_grid"
       style={{ marginBottom: `${genderError && !view3 ? "70px" : "0"}` }}
+      data-testid="gender-select"
     >
       <label htmlFor="male">
         Male
