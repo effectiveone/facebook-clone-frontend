@@ -42,9 +42,8 @@ export default function Profile() {
     dispatch,
   } = useProfileContext();
 
-  // console.log("useProfileContext", profile);
-
-  const { posts } = useAppContext();
+  console.log("PROFILE OBJECT:", JSON.stringify(profile, null, 2));
+  console.log("PROFILE POSTS:", profile?.posts);
 
   return (
     <div className='profile'>
@@ -52,7 +51,7 @@ export default function Profile() {
         <CreatePostPopup
           user={user}
           setVisible={setVisible}
-          posts={profile?.posts}
+          posts={profile?.profile?.posts}
           dispatch={dispatch}
           profile
         />
@@ -255,9 +254,13 @@ export default function Profile() {
                   </div>
                 ) : (
                   <div className='posts'>
-                    {posts.posts?.map((post) => (
-                      <Post post={post} user={user} key={post._id} profile />
-                    ))}
+                    {profile?.profile?.posts?.map((post) => {
+                      console.log('POST:', post);
+
+                      return (
+                        <Post post={post} user={user} key={post._id} profile />
+                      );
+                    })}
                   </div>
                 )}
               </div>

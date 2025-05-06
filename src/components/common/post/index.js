@@ -263,7 +263,7 @@ export default function Post({ post, user, profile }) {
                         : post.images.length >= 5 && 'grid_5'
               }
             >
-              {post.images?.slice(0, 5).map((image, i) => (
+              {post.images?.slice(0, 5)?.map((image, i) => (
                 <img src={image.url} key={i} alt='' className={`img-${i}`} />
               ))}
               {post.images?.length > 5 && (
@@ -296,11 +296,11 @@ export default function Post({ post, user, profile }) {
           <div className='reacts_count_imgs'>
             {reacts &&
               reacts
-                .sort((a, b) => {
+                ?.sort((a, b) => {
                   return b.count - a.count;
                 })
-                .slice(0, 3)
-                .map(
+                ?.slice(0, 3)
+                ?.map(
                   (react, i) =>
                     react.count > 0 && (
                       <img
@@ -314,7 +314,7 @@ export default function Post({ post, user, profile }) {
           <div className='reacts_count_num'>{total > 0 && total}</div>
         </div>
         <div className='to_right'>
-          <div className='comments_count'>{comments.length} comments</div>
+          <div className='comments_count'>{comments?.length} comments</div>
           <div className='share_count'>0 share</div>
         </div>
       </div>
