@@ -28,14 +28,14 @@ export const friendsError = (payload) => ({
   payload,
 });
 
-export const getFriendsPageInfos = () => async (dispatch) => {
+export const getFriendsPageInfos = (token) => async (dispatch) => {
   dispatch(friendsRequest());
   try {
     const { data } = await axios.get(
       `${process.env.REACT_APP_BACKEND_URL}/getFriendsPageInfos`,
       {
         headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem('user'))?.token}`,
+          Authorization: `Bearer ${token}`,
         },
       },
     );
@@ -46,6 +46,7 @@ export const getFriendsPageInfos = () => async (dispatch) => {
 };
 
 export const getActions = (dispatch) => {
+  console.log('getActions', dispatch);
   return {
     sendFriendInvitation: (data, closeDialogHandler) =>
       dispatch(sendFriendInvitation(data, closeDialogHandler)),

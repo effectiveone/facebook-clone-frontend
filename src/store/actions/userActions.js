@@ -118,3 +118,18 @@ export const requireAuth = (nextState, replace) => {
     });
   }
 };
+
+// Dodaje funkcję do użycia przy testowym logowaniu
+export const setUserAndToken = (user) => {
+  if (user && user.token) {
+    // Zapisz token w localStorage
+    setToken(user.token);
+
+    // Można też zaktualizować Redux store
+    return {
+      type: 'LOGIN',
+      payload: user,
+    };
+  }
+  return { type: 'NOOP' };
+};

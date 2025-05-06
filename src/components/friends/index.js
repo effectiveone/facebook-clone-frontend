@@ -1,145 +1,147 @@
-import { Link } from "react-router-dom";
-import Header from "../common/header";
-import Card from "./Card";
-import "./style.scss";
-import { useFriendsContext } from "../../context/useFriendsContext";
+import { Link } from 'react-router-dom';
+import Header from '../common/header';
+import Card from './Card';
+import './style.scss';
+import { useFriendsContext } from '../../context/useFriendsContext';
 
 export default function Friends() {
   const { type, data, getData } = useFriendsContext();
-  console.log("data", data);
+  console.log('Friends_data', data);
   return (
     <>
-      <Header page="friends" />
-      <div className="friends">
-        <div className="friends_left">
-          <div className="friends_left_header">
+      <Header page='friends' />
+      <div className='friends'>
+        <div className='friends_left'>
+          <div className='friends_left_header'>
             <h3>Friends</h3>
-            <div className="small_circle">
-              <i className="settings_filled_icon"></i>
+            <div className='small_circle'>
+              <i className='settings_filled_icon'></i>
             </div>
           </div>
-          <div className="friends_left_wrap">
+          <div className='friends_left_wrap'>
             <Link
-              to="/friends"
+              to='/friends'
               className={`mmenu_item hover3 ${
-                type === undefined && "active_friends"
+                type === undefined && 'active_friends'
               }`}
             >
-              <div className="small_circle">
-                <i className="friends_home_icon "></i>
+              <div className='small_circle'>
+                <i className='friends_home_icon '></i>
               </div>
               <span>Home</span>
-              <div className="rArrow">
-                <i className="right_icon"></i>
+              <div className='rArrow'>
+                <i className='right_icon'></i>
               </div>
             </Link>
             <Link
-              to="/friends/requests"
+              to='/friends/requests'
               className={`mmenu_item hover3 ${
-                type === "requests" && "active_friends"
+                type === 'requests' && 'active_friends'
               }`}
             >
-              <div className="small_circle">
-                <i className="friends_requests_icon"></i>
+              <div className='small_circle'>
+                <i className='friends_requests_icon'></i>
               </div>
               <span>Friend Requests</span>
-              <div className="rArrow">
-                <i className="right_icon"></i>
+              <div className='rArrow'>
+                <i className='right_icon'></i>
               </div>
             </Link>
             <Link
-              to="/friends/sent"
+              to='/friends/sent'
               className={`mmenu_item hover3 ${
-                type === "sent" && "active_friends"
+                type === 'sent' && 'active_friends'
               }`}
             >
-              <div className="small_circle">
-                <i className="friends_requests_icon"></i>
+              <div className='small_circle'>
+                <i className='friends_requests_icon'></i>
               </div>
               <span>Sent Requests</span>
-              <div className="rArrow">
-                <i className="right_icon"></i>
+              <div className='rArrow'>
+                <i className='right_icon'></i>
               </div>
             </Link>
-            <div className="mmenu_item hover3">
-              <div className="small_circle">
-                <i className="friends_suggestions_icon"></i>
+            <div className='mmenu_item hover3'>
+              <div className='small_circle'>
+                <i className='friends_suggestions_icon'></i>
               </div>
               <span>Suggestions</span>
-              <div className="rArrow">
-                <i className="right_icon"></i>
+              <div className='rArrow'>
+                <i className='right_icon'></i>
               </div>
             </div>
             <Link
-              to="/friends/all"
+              to='/friends/all'
               className={`mmenu_item hover3 ${
-                type === "all" && "active_friends"
+                type === 'all' && 'active_friends'
               }`}
             >
-              <div className="small_circle">
-                <i className="all_friends_icon"></i>
+              <div className='small_circle'>
+                <i className='all_friends_icon'></i>
               </div>
               <span>All Friends</span>
-              <div className="rArrow">
-                <i className="right_icon"></i>
+              <div className='rArrow'>
+                <i className='right_icon'></i>
               </div>
             </Link>
-            <div className="mmenu_item hover3">
-              <div className="small_circle">
-                <i className="birthdays_icon"></i>
+            <div className='mmenu_item hover3'>
+              <div className='small_circle'>
+                <i className='birthdays_icon'></i>
               </div>
               <span>Birthdays</span>
-              <div className="rArrow">
-                <i className="right_icon"></i>
+              <div className='rArrow'>
+                <i className='right_icon'></i>
               </div>
             </div>
-            <div className="mmenu_item hover3">
-              <div className="small_circle">
-                <i className="all_friends_icon"></i>
+            <div className='mmenu_item hover3'>
+              <div className='small_circle'>
+                <i className='all_friends_icon'></i>
               </div>
               <span>Custom Lists</span>
-              <div className="rArrow">
-                <i className="right_icon"></i>
+              <div className='rArrow'>
+                <i className='right_icon'></i>
               </div>
             </div>
           </div>
         </div>
-        <div className="friends_right">
-          {(type === undefined || type === "requests") && (
-            <div className="friends_right_wrap">
-              <div className="friends_left_header">
+        <div className='friends_right'>
+          {(type === undefined || type === 'requests') && (
+            <div className='friends_right_wrap'>
+              <div className='friends_left_header'>
                 <h3>Friend Requests</h3>
                 {type === undefined && (
-                  <Link to="/friends/requests" className="see_link hover3">
+                  <Link to='/friends/requests' className='see_link hover3'>
                     See all
                   </Link>
                 )}
               </div>
-              <div className="flex_wrap">
+              <div className='flex_wrap'>
                 {data.receivedRequests &&
-                  data.receivedRequests.map((user) => (
-                    <Card
-                      second={user.receiverId}
-                      userr={user.senderId}
-                      key={user}
-                      type="request"
-                      getData={getData}
-                    />
-                  ))}
+                  data.receivedRequests.map((user) => {
+                    return (
+                      <Card
+                        second={user.receiverId}
+                        userr={user._id}
+                        key={user._id || user.senderId} // upewnij się, że klucz jest unikalny
+                        type='request'
+                        getData={getData}
+                      />
+                    );
+                  })}
               </div>
             </div>
           )}
-          {(type === undefined || type === "sent") && (
-            <div className="friends_right_wrap">
-              <div className="friends_left_header">
+          {(type === undefined || type === 'sent') && (
+            <div className='friends_right_wrap'>
+              <div className='friends_left_header'>
                 <h3>Sent Requests</h3>
                 {type === undefined && (
-                  <Link to="/friends/sent" className="see_link hover3">
+                  <Link to='/friends/sent' className='see_link hover3'>
                     See all
                   </Link>
                 )}
               </div>
-              <div className="flex_wrap">
+              <div className='flex_wrap'>
                 {data.sentRequests &&
                   data.sentRequests.map((user) => (
                     <Card
@@ -147,30 +149,30 @@ export default function Friends() {
                       userr={user.receiverId}
                       key={user}
                       allDate={user}
-                      type="sent"
+                      type='sent'
                       getData={getData}
                     />
                   ))}
               </div>
             </div>
           )}
-          {(type === undefined || type === "all") && (
-            <div className="friends_right_wrap">
-              <div className="friends_left_header">
+          {(type === undefined || type === 'all') && (
+            <div className='friends_right_wrap'>
+              <div className='friends_left_header'>
                 <h3>Friends</h3>
                 {type === undefined && (
-                  <Link to="/friends/all" className="see_link hover3">
+                  <Link to='/friends/all' className='see_link hover3'>
                     See all
                   </Link>
                 )}
               </div>
-              <div className="flex_wrap">
+              <div className='flex_wrap'>
                 {data.friends &&
                   data.friends.map((user) => (
                     <Card
                       userr={user}
                       key={user._id}
-                      type="friends"
+                      type='friends'
                       getData={getData}
                     />
                   ))}

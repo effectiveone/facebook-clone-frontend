@@ -53,6 +53,12 @@ export default function LoginForm({ setVisible }) {
 
       console.log('Odpowiedź z serwera:', data);
 
+      // Zapisuję token w localStorage dla późniejszej autoryzacji
+      if (data && data.token) {
+        localStorage.setItem('auth_token', data.token);
+        localStorage.setItem('user', JSON.stringify(data));
+      }
+
       dispatch({ type: 'LOGIN', payload: data });
       Cookies.set('user', JSON.stringify(data));
       navigate('/');

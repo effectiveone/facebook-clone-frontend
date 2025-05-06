@@ -65,12 +65,19 @@ export const sendFriendInvitation = async (data) => {
 };
 
 export const acceptFriendInvitation = async ({ senderId, receiverId }) => {
+  console.log('acceptFriendInvitation - dane wejściowe:', {
+    senderId,
+    receiverId,
+  });
   try {
-    return await apiClient.post('/friend-invitation/accept', {
+    const response = await apiClient.post('/friend-invitation/accept', {
       senderId,
       receiverId,
     });
+    console.log('acceptFriendInvitation - odpowiedź:', response.data);
+    return response;
   } catch (exception) {
+    console.error('acceptFriendInvitation - błąd:', exception);
     checkResponseCode(exception);
     return {
       error: true,
@@ -80,15 +87,19 @@ export const acceptFriendInvitation = async ({ senderId, receiverId }) => {
 };
 
 export const rejectFriendInvitation = async ({ senderId, receiverId }) => {
-  console.log('rejectFriendInvitation', senderId);
-  console.log('rejectFriendInvitationreceiverId', receiverId);
-
+  console.log('rejectFriendInvitation - dane wejściowe:', {
+    senderId,
+    receiverId,
+  });
   try {
-    return await apiClient.post('/friend-invitation/reject', {
+    const response = await apiClient.post('/friend-invitation/reject', {
       senderId,
       receiverId,
     });
+    console.log('rejectFriendInvitation - odpowiedź:', response.data);
+    return response;
   } catch (exception) {
+    console.error('rejectFriendInvitation - błąd:', exception);
     checkResponseCode(exception);
     return {
       error: true,
