@@ -1,0 +1,151 @@
+.photo_story_wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+}
+
+.photo_story_container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.photo_story_header {
+  display: flex;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e4e6eb;
+  margin-bottom: 20px;
+}
+
+.back_btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e4e6eb;
+  border: none;
+  cursor: pointer;
+  margin-right: 15px;
+  font-size: 20px;
+}
+
+.back_btn:hover {
+  background-color: #d8dadf;
+}
+
+.photo_story_header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #050505;
+}
+
+.photo_story_content {
+  margin: 30px 0;
+  min-height: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload_area {
+  width: 100%;
+  height: 350px;
+  border: 2px dashed #dadde1;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.upload_area:hover {
+  background-color: #f2f3f5;
+}
+
+.upload_icon {
+  font-size: 42px;
+  margin-bottom: 15px;
+}
+
+.upload_area p {
+  font-size: 16px;
+  color: #65676b;
+}
+
+.preview_container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image_preview {
+  width: 100%;
+  max-height: 350px;
+  object-fit: contain;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.change_photo_btn {
+  padding: 8px 16px;
+  background-color: #e4e6eb;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.change_photo_btn:hover {
+  background-color: #d8dadf;
+}
+
+.photo_story_actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 15px;
+  border-top: 1px solid #e4e6eb;
+}
+
+.cancel_btn, .share_btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancel_btn {
+  background-color: #e4e6eb;
+  border: none;
+}
+
+.cancel_btn:hover {
+  background-color: #d8dadf;
+}
+
+.share_btn {
+  background-color: #1877f2;
+  color: white;
+  border: none;
+}
+
+.share_btn:hover:not(:disabled) {
+  background-color: #166fe5;
+}
+
+.share_btn:disabled {
+  background-color: #9cb4d8;
+  cursor: not-allowed;
+}

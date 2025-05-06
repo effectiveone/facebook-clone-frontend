@@ -466,6 +466,7 @@ header {
     height: 20px;
   }
   &__search_user_item i {
+    color: #000 !important;
     position: absolute;
     right: 10px;
     transform: scale(0&__6);
@@ -483,6 +484,7 @@ header {
     overflow-y: auto;
   }
   &__search_user_item {
+    color: #000 !important;
     position: relative;
     width: 100%;
     display: flex;
@@ -499,6 +501,7 @@ header {
     object-fit: cover;
   }
   &__search_user_item span {
+    color: #000 !important;
     font-weight: 600;
     font-size: 14px;
   }

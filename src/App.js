@@ -8,6 +8,9 @@ import Activate from "./components/home/activate";
 import ResetPage from "./pages/ResetPage";
 import CreatePostPopup from "./components/common/createPost/createPostPopup";
 import FriendsPage from "./pages/FriendsPage";
+import CreateStory from "./components/createStory";
+import PhotoStory from "./components/createStory/PhotoStory";
+import TextStory from "./components/createStory/TextStory";
 import AppProvider, { useAppContext } from "./context/useAppContext";
 
 const App = () => {
@@ -39,6 +42,9 @@ const RoutePicker = () => {
               exact
             />
             <Route path="/activate/:token" element={<Activate />} exact />
+            <Route path="/create-story" element={<CreateStory />} exact />
+            <Route path="/create-story/photo" element={<PhotoStory />} exact />
+            <Route path="/create-story/text" element={<TextStory />} exact />
           </Route>
           <Route element={<NotLoggedInRoutes />}>
             <Route path="/login" element={<LoginPage />} exact />

@@ -179,6 +179,7 @@ export default function SearchMenu({ color, setShowSearchMenu }) {
             type='text'
             placeholder='Wyszukaj użytkowników'
             ref={input}
+            style={{ color: '#000' }}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onFocus={() => {
@@ -229,7 +230,7 @@ export default function SearchMenu({ color, setShowSearchMenu }) {
                   onClick={() => addToSearchHistoryHandler(user.user._id)}
                 >
                   <img src={user?.user?.picture} alt='' />
-                  <span style={{ color: '#000' }}>
+                  <span className='user_name'>
                     {user?.user?.first_name} {user?.user?.last_name}
                   </span>
                 </Link>
@@ -252,19 +253,21 @@ export default function SearchMenu({ color, setShowSearchMenu }) {
             {results &&
               Array.isArray(results) &&
               results.length > 0 &&
-              results.map((user) => (
-                <Link
-                  to={`/profile/${user.username}`}
-                  className='search_user_item hover1'
-                  onClick={() => addToSearchHistoryHandler(user._id)}
-                  key={user._id}
-                >
-                  <img src={user?.picture} alt='' />
-                  <span style={{ color: '#000' }}>
-                    {user?.first_name} {user?.last_name}
-                  </span>
-                </Link>
-              ))}
+              results.map((user) => {
+                return (
+                  <Link
+                    to={`/profile/${user.username}`}
+                    className='search_user_item hover1'
+                    onClick={() => addToSearchHistoryHandler(user._id)}
+                    key={user._id}
+                  >
+                    <img src={user?.picture} alt='' />
+                    <span className='user_name' style={{ color: '#000' }}>
+                      {user?.username}
+                    </span>
+                  </Link>
+                );
+              })}
             {searchTerm &&
               results &&
               Array.isArray(results) &&

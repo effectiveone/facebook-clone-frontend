@@ -1,0 +1,163 @@
+.text_story_wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+}
+
+.text_story_container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.text_story_header {
+  display: flex;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e4e6eb;
+  margin-bottom: 20px;
+}
+
+.back_btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e4e6eb;
+  border: none;
+  cursor: pointer;
+  margin-right: 15px;
+  font-size: 20px;
+}
+
+.back_btn:hover {
+  background-color: #d8dadf;
+}
+
+.text_story_header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #050505;
+}
+
+.text_story_content {
+  margin: 30px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.text_editor {
+  width: 100%;
+  height: 350px;
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.text_editor textarea {
+  width: 80%;
+  height: 70%;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  resize: none;
+  outline: none;
+  font-family: inherit;
+}
+
+.text_editor textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.character_counter {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  color: white;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.background_selector {
+  margin-top: 20px;
+}
+
+.background_selector h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #050505;
+}
+
+.color_options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.color_option {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.color_option:hover {
+  transform: scale(1.1);
+}
+
+.color_option.selected {
+  box-shadow: 0 0 0 3px white, 0 0 0 5px #1877f2;
+}
+
+.text_story_actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 15px;
+  border-top: 1px solid #e4e6eb;
+}
+
+.cancel_btn, .share_btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancel_btn {
+  background-color: #e4e6eb;
+  border: none;
+}
+
+.cancel_btn:hover {
+  background-color: #d8dadf;
+}
+
+.share_btn {
+  background-color: #1877f2;
+  color: white;
+  border: none;
+}
+
+.share_btn:hover:not(:disabled) {
+  background-color: #166fe5;
+}
+
+.share_btn:disabled {
+  background-color: #9cb4d8;
+  cursor: not-allowed;
+}

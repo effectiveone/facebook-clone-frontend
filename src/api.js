@@ -122,3 +122,93 @@ const checkResponseCode = (exception) => {
 
   return;
 };
+
+// Story API methods
+export const createPhotoStory = async (imageFile) => {
+  try {
+    const formData = new FormData();
+    formData.append('type', 'photo');
+    formData.append('image', imageFile);
+    
+    const response = await apiClient.post('/story/create', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    
+    return response;
+  } catch (exception) {
+    checkResponseCode(exception);
+    return {
+      error: true,
+      exception,
+    };
+  }
+};
+
+export const createTextStory = async (text, background) => {
+  try {
+    console.log('Creating text story with:', { text, background });
+    
+    const response = await apiClient.post('/story/create', {
+      type: 'text',
+      text,
+      background,
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    console.log('Text story created successfully:', response.data);
+    return response;
+  } catch (exception) {
+    console.error('Error creating text story:', exception);
+    console.error('Error details:', exception.response?.data);
+    checkResponseCode(exception);
+    return {
+      error: true,
+      message: exception.response?.data?.message || 'Failed to create text story',
+      exception,
+    };
+  }
+};
+
+export const getStories = async () => {
+  try {
+    const response = await apiClient.get('/story');
+    return response;
+  } catch (exception) {
+    checkResponseCode(exception);
+    return {
+      error: true,
+      exception,
+    };
+  }
+};
+
+export const viewStory = async (storyId) => {
+  try {
+    const response = await apiClient.put(`/story/${storyId}/view`);
+    return response;
+  } catch (exception) {
+    checkResponseCode(exception);
+    return {
+      error: true,
+      exception,
+    };
+  }
+};
+
+export const deleteStory = async (storyId) => {
+  try {
+    const response = await apiClient.delete(`/story/${storyId}`);
+    return response;
+  } catch (exception) {
+    checkResponseCode(exception);
+    return {
+      error: true,
+      exception,
+    };
+  }
+};
