@@ -1,7 +1,17 @@
 import axios from 'axios';
 
+// Określenie bazowego URL API w zależności od środowiska
+const getBaseUrl = () => {
+  // Sprawdzanie środowiska (NODE_ENV jest ustawiany automatycznie przez narzędzia jak Create React App)
+  const isProd = process.env.NODE_ENV === 'production';
+
+  return isProd
+    ? 'https://facebook-clone-backend-p1ds.onrender.com/api'
+    : 'http://localhost:8080/api';
+};
+
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  baseURL: getBaseUrl(),
   timeout: 5000,
 });
 
