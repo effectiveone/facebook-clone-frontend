@@ -1,12 +1,10 @@
 import { useCallback, useRef, useState } from 'react';
 import Cropper from 'react-easy-crop';
 import { useDispatch, useSelector } from 'react-redux';
-import { createPost } from '../../../store/actions/postsActions';
-import { uploadImages } from '../../../store/actions/uploadImages';
-import { updateProfilePicture } from '../../../store/actions/userActions';
+import { updateProfilePicture as updateProfilePictureAction } from '../../../store/actions/userActions';
 import getCroppedImg from '../../../utils/getCroppedImg';
 import PulseLoader from 'react-spinners/PulseLoader';
-import Cookies from 'js-cookie';
+import { uploadImages } from '../../../store/actions/uploadImages';
 
 export default function UpdateProfilePicture({
   setImage,
@@ -56,54 +54,79 @@ export default function UpdateProfilePicture({
     [croppedAreaPixels, image, setImage],
   );
 
-  /* eslint-disable-next-line */
-  const updateProfilePictureHandler = async () => {
+  const handleUpdateProfilePicture = async () => {
     try {
+      setError('');
       setLoading(true);
-      const img = await getCroppedImage();
-      const blob = await fetch(img).then((b) => b.blob());
+
+      if (!image) {
+        setError('Najpierw wybierz zdjęcie');
+        setLoading(false);
+        return;
+      }
+
+      if (!croppedAreaPixels) {
+        setError('Najpierw przytnij zdjęcie');
+        setLoading(false);
+        return;
+      }
+
+      const croppedImage = await getCroppedImage();
+      if (!croppedImage) {
+        setError('Błąd podczas przycinania zdjęcia');
+        setLoading(false);
+        return;
+      }
+
+      const response = await fetch(croppedImage);
+      const blob = await response.blob();
+
+      if (blob.size === 0) {
+        setError('Błąd podczas przetwarzania zdjęcia');
+        setLoading(false);
+        return;
+      }
+
+      const file = new File([blob], 'profile-picture.jpg', {
+        type: 'image/jpeg',
+      });
+
       const path = `${user.username}/profile_pictures`;
       const formData = new FormData();
-      formData.append('file', blob);
+      formData.append('file', file);
       formData.append('path', path);
+
+      console.log('Wysyłam zdjęcie do backendu...');
       const res = await uploadImages(formData, path, user.token);
-      const updatedPicture = await updateProfilePicture(res[0].url, user.token);
-      if (updatedPicture === 'ok') {
-        const newPost = await createPost(
-          'profilePicture',
-          null,
-          description,
-          res,
-          user.id,
-          user.token,
-        );
-        if (newPost.status === 'ok') {
-          setLoading(false);
-          setImage('');
-          pRef.current.style.backgroundImage = `url(${res[0].url})`;
-          Cookies.set(
-            'user',
-            JSON.stringify({
-              ...user,
-              picture: res[0].url,
-            }),
-          );
-          dispatch({
-            type: 'UPDATE_PICTURE',
-            payload: res[0].url,
-          });
-          setShow(false);
-        } else {
-          setLoading(false);
-          setError(newPost);
-        }
-      } else {
-        setLoading(false);
-        setError(updatedPicture);
+
+      if (typeof res === 'string') {
+        throw new Error(res);
       }
-    } catch (error) {
+
+      console.log('Zdjęcie przesłane do Cloudinary:', res[0].url);
+
+      const updateActionThunk = updateProfilePictureAction({
+        url: res[0].url,
+      });
+      const updated_picture = await dispatch(updateActionThunk);
+      if (updated_picture.status === 'error') {
+        throw new Error(updated_picture.message);
+      }
+
+      if (pRef.current) {
+        pRef.current.style.backgroundImage = `url(${res[0].url})`;
+      }
+
       setLoading(false);
-      setError(error.response.data.message);
+      setShow(false);
+      setImage('');
+    } catch (error) {
+      console.error('Błąd podczas aktualizacji zdjęcia profilowego:', error);
+      setError(
+        error.message ||
+          'Wystąpił błąd podczas aktualizacji zdjęcia profilowego',
+      );
+      setLoading(false);
     }
   };
 
@@ -160,9 +183,6 @@ export default function UpdateProfilePicture({
         <div className='gray_btn' onClick={() => getCroppedImage('show')}>
           <i className='crop_icon'></i>Crop photo
         </div>
-        <div className='gray_btn'>
-          <i className='temp_icon'></i>Make Temporary
-        </div>
       </div>
       <div className='flex_p_t'>
         <i className='public_icon'></i>
@@ -175,7 +195,7 @@ export default function UpdateProfilePicture({
         <button
           className='blue_btn'
           disabled={loading}
-          onClick={() => updateProfilePicture()}
+          onClick={() => handleUpdateProfilePicture()}
         >
           {loading ? <PulseLoader color='#fff' size={5} /> : 'Save'}
         </button>

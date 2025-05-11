@@ -28,6 +28,19 @@ export const createPostFailure = (error) => ({
 export const createPost =
   (type, background, text, images, user, token) => async (dispatch) => {
     try {
+      console.log('Rozpoczynam tworzenie posta:', {
+        type,
+        background,
+        text,
+        images,
+        user,
+      });
+
+      if (!token) {
+        console.error('Brak tokena autoryzacji w createPost');
+        return { status: 'error', message: 'Brak tokena autoryzacji' };
+      }
+
       const res = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/createPost`,
         {
@@ -44,11 +57,16 @@ export const createPost =
         },
       );
 
+      console.log('Odpowiedź z serwera:', res.data);
       dispatch(createPostSuccess(res?.data));
-      return res; // Move return statement after dispatch
+      return { status: 'ok', data: res.data };
     } catch (error) {
-      console.log(error); // dodana instrukcja logowania błędu
-      dispatch(createPostFailure(error.response?.data?.message));
+      console.error('Błąd podczas tworzenia posta:', error);
+      const errorMessage =
+        error.response?.data?.message ||
+        'Nieznany błąd podczas tworzenia posta';
+      dispatch(createPostFailure(errorMessage));
+      return { status: 'error', message: errorMessage };
     }
   };
 

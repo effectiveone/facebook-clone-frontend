@@ -92,7 +92,6 @@ export default function Stories() {
         ) : (
           <>
             <div
-              style={{ color: 'pink' }}
               className='create_story_card'
               onClick={() => navigate('/create-story')}
             >

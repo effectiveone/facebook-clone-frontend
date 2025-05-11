@@ -19,8 +19,6 @@ const makeRequest = (url, method) => (data) => async () => {
       headers.Authorization = `Bearer ${token}`;
     } else {
       console.error('Brak tokena do autoryzacji żądania');
-      // Możesz tu dodać przekierowanie do strony logowania
-      // albo rzucić błąd, w zależności od wymagań
       throw new Error('Brak tokena autoryzacyjnego. Zaloguj się ponownie.');
     }
 
@@ -35,25 +33,22 @@ const makeRequest = (url, method) => (data) => async () => {
   } catch (error) {
     console.error('Błąd podczas żądania:', error);
 
-    // Sprawdzenie czy błąd jest związany z autoryzacją (401)
     if (error.response && error.response.status === 401) {
-      // Token wygasł lub jest nieprawidłowy
-      removeToken(); // Usuń nieprawidłowy token
-      // Opcjonalnie: Przekieruj do strony logowania
+      removeToken();
       window.location.href = '/login';
-      return 'Sesja wygasła. Zaloguj się ponownie.';
+      throw new Error('Sesja wygasła. Zaloguj się ponownie.');
     }
 
     if (error.response) {
       console.error('Status odpowiedzi:', error.response.status);
       console.error('Dane odpowiedzi:', error.response.data);
-      return (
+      throw new Error(
         error.response.data.message ||
-        'Wystąpił błąd podczas komunikacji z serwerem'
+          'Wystąpił błąd podczas komunikacji z serwerem',
       );
     }
 
-    return 'Wystąpił nieoczekiwany błąd';
+    throw new Error('Wystąpił nieoczekiwany błąd');
   }
 };
 
@@ -90,6 +85,13 @@ export const logout = () => {
 // Eksport wszystkich funkcji w taki sam sposób, ale bez konieczności podawania tokena
 export const updateProfilePicture = makeRequest('/updateProfilePicture', 'PUT');
 export const updateCover = makeRequest('/updateCover', 'PUT');
+export const updateUserCover = (cover) => {
+  console.log('updateUserCover - Nowy URL okładki:', cover);
+  return {
+    type: 'UPDATE_COVER',
+    payload: cover,
+  };
+};
 export const addFriend = (id) => makeRequest(`/addFriend/${id}`, 'PUT');
 export const cancelRequest = (id) => makeRequest(`/cancelRequest/${id}`, 'PUT');
 export const follow = (id) => makeRequest(`/follow/${id}`, 'PUT');
@@ -103,6 +105,50 @@ export const addToSearchHistory = makeRequest('/addToSearchHistory', 'PUT');
 export const getSearchHistory = makeRequest('/getSearchHistory', 'GET');
 export const removeFromSearch = makeRequest('/removeFromSearch', 'PUT');
 export const getFriendsPageInfos = makeRequest('/getFriendsPageInfos', 'GET');
+export const createStory = makeRequest('/api/story/create', 'POST');
+export const updateStories = (stories) => {
+  return {
+    type: 'UPDATE_STORIES',
+    payload: stories,
+  };
+};
+export const getStories = makeRequest('/api/story', 'GET');
+export const viewStory = (storyId) =>
+  makeRequest(`/api/story/${storyId}/view`, 'PUT');
+export const deleteStory = (storyId) =>
+  makeRequest(`/api/story/${storyId}`, 'DELETE');
+
+// Akcje dla obsługi stanów stories
+export const storiesLoading = () => ({
+  type: 'STORIES_LOADING',
+});
+
+export const storiesError = (error) => ({
+  type: 'STORIES_ERROR',
+  payload: error,
+});
+
+export const addStory = (story) => ({
+  type: 'ADD_STORY',
+  payload: story,
+});
+
+export const removeStory = (storyId) => ({
+  type: 'DELETE_STORY',
+  payload: storyId,
+});
+
+// Akcja do pobrania stories i aktualizacji stanu
+export const fetchStories = () => async (dispatch) => {
+  dispatch(storiesLoading());
+  try {
+    const response = await dispatch(getStories())();
+    dispatch(updateStories(response.data.data));
+  } catch (error) {
+    console.error('Błąd podczas pobierania relacji:', error);
+    dispatch(storiesError(error.message || 'Błąd podczas pobierania relacji'));
+  }
+};
 
 // Funkcja pomocnicza do sprawdzenia, czy użytkownik jest zalogowany
 export const isAuthenticated = () => {

@@ -42,6 +42,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
+    "e2e": "playwright test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -67,6 +68,7 @@
     "@babel/plugin-transform-react-jsx": "^7.14.9",
     "@babel/preset-env": "^7.27.1",
     "@babel/preset-react": "^7.27.1",
+    "@playwright/test": "^1.52.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^15.0.6",
     "@testing-library/user-event": "^14.5.2",

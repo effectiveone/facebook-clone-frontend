@@ -17,6 +17,7 @@ import { HashLoader } from 'react-spinners';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useAppContext } from '../../context/useAppContext';
 import { useProfileContext } from '../../context/useProfileContext';
+import { useEffect } from 'react';
 
 export default function Profile() {
   const { getAllPosts } = useAppContext();
@@ -42,8 +43,10 @@ export default function Profile() {
     dispatch,
   } = useProfileContext();
 
-  console.log("PROFILE OBJECT:", JSON.stringify(profile, null, 2));
-  console.log("PROFILE POSTS:", profile?.posts);
+  useEffect(() => {
+    console.log('Profile - Stan profilu:', profile);
+    console.log('Profile - URL okładki:', profile?.cover);
+  }, [profile]);
 
   return (
     <div className='profile'>
@@ -146,7 +149,7 @@ export default function Profile() {
           ) : (
             <>
               <Cover
-                cover={profile.cover}
+                cover={profile.profile.cover}
                 visitor={visitor}
                 photos={photos.resources}
               />
@@ -154,6 +157,7 @@ export default function Profile() {
                 profile={profile}
                 visitor={visitor}
                 photos={photos.resources}
+                // photos={profile.profile.picture}
                 othername={othername}
                 loading={loading}
               />
@@ -255,8 +259,6 @@ export default function Profile() {
                 ) : (
                   <div className='posts'>
                     {profile?.profile?.posts?.map((post) => {
-                      console.log('POST:', post);
-
                       return (
                         <Post post={post} user={user} key={post._id} profile />
                       );

@@ -54,8 +54,10 @@ export const useProfile = () => {
 
   useEffect(() => {
     if (userName) {
+      console.log('Pobieranie profilu dla użytkownika:', userName);
       // Użyj tokena z user jeśli istnieje, w przeciwnym razie użyj tymczasowego tokena
       const token = user?.token || getOrCreateToken();
+      console.log('Używany token:', token ? 'Token istnieje' : 'Brak tokena');
 
       dispatch(
         getProfile(userName, token, navigate, path, sort, max, setPhotos),
@@ -67,6 +69,11 @@ export const useProfile = () => {
     if (profile?.details?.otherName) {
       setOthername(profile.details.otherName);
     }
+  }, [profile]);
+
+  useEffect(() => {
+    console.log('Stan profilu:', profile);
+    console.log('URL okładki:', profile?.cover);
   }, [profile]);
 
   return useMemo(
