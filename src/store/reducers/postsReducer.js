@@ -106,11 +106,6 @@ export function postsReducer(state = initialState, action) {
         ),
       };
 
-    case POST_ERROR:
-      return {
-        ...state,
-        error: action.payload,
-      };
     default:
       return state;
   }

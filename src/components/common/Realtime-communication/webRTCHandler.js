@@ -1,21 +1,19 @@
-import { store } from "../../../store";
+import { store } from '../../../store';
 import {
   setLocalStream,
   setRemoteStreams,
-} from "../../../store/actions/roomActions";
-import Peer from "simple-peer";
-import "webrtc-adapter";
-import * as socketConnection from "./socketConnection";
+} from '../../../store/actions/roomActions';
+import Peer from 'simple-peer';
+import 'webrtc-adapter';
+import * as socketConnection from './socketConnection';
 
 function getConfiguration() {
-  const peer = new Peer({ initiator: true, trickle: false });
-
   const turnIceServers = null;
 
   if (turnIceServers) {
     // TODO use TURN server credentials
   } else {
-    console.warn("Using only STUN server");
+    console.warn('Using only STUN server');
   }
 
   return {};
@@ -42,7 +40,7 @@ export function getLocalStreamPreview(onlyAudio = false, callbackFunc) {
     })
     .catch((err) => {
       console.log(err);
-      console.log("Cannot get an access to local stream");
+      console.log('Cannot get an access to local stream');
     });
 }
 
@@ -52,7 +50,7 @@ export function prepareNewPeerConnection(connUserSocketId, isInitiator) {
   const localStream = store.getState().room.localStream;
 
   if (!localStream) {
-    console.log("Local stream is null or undefined");
+    console.log('Local stream is null or undefined');
     return;
   }
 
@@ -62,7 +60,7 @@ export function prepareNewPeerConnection(connUserSocketId, isInitiator) {
     stream: localStream,
   });
 
-  peers[connUserSocketId].on("signal", (data) => {
+  peers[connUserSocketId].on('signal', (data) => {
     const signalData = {
       signal: data,
       connUserSocketId,
@@ -70,9 +68,9 @@ export function prepareNewPeerConnection(connUserSocketId, isInitiator) {
     socketConnection.signalPeerData(signalData);
   });
 
-  peers[connUserSocketId].on("stream", (remoteStream) => {
-    console.log("remote stream came from other user");
-    console.log("direct connection has been established");
+  peers[connUserSocketId].on('stream', (remoteStream) => {
+    console.log('remote stream came from other user');
+    console.log('direct connection has been established');
     remoteStream.connUserSocketId = connUserSocketId;
     addNewRemoteStream(remoteStream);
   });
@@ -113,7 +111,7 @@ export function handleParticipantLeftRoom(data) {
   const remoteStreams = store.getState().room.remoteStreams;
 
   const newRemoteStreams = remoteStreams.filter(
-    (remoteStream) => remoteStream.connUserSocketId !== connUserSocketId
+    (remoteStream) => remoteStream.connUserSocketId !== connUserSocketId,
   );
 
   store.dispatch(setRemoteStreams(newRemoteStreams));

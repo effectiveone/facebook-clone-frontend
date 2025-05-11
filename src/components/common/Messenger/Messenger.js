@@ -1,15 +1,14 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import WelcomeMessage from "./WelcomeMessage";
-import MessengerContent from "./MessengerContent";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import MessengerContent from './MessengerContent';
 
 const Messenger = () => {
   const chosenChatDetails = useSelector(
-    (state) => state.chat.chosenChatDetails
+    (state) => state.chat.chosenChatDetails,
   );
 
   return (
-    <div className="messenger-container">
+    <div className='messenger-container'>
       {chosenChatDetails && <MessengerContent />}
     </div>
   );

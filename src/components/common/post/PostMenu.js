@@ -1,11 +1,6 @@
 import { useRef, useState } from 'react';
-import MenuItem from './MenuItem';
 import useOnClickOutside from '../../../utils/clickOutside';
-import {
-  deletePost,
-  savePost,
-  updatePost,
-} from '../../../store/actions/postsActions';
+import { deletePost, savePost } from '../../../store/actions/postsActions';
 import { saveAs } from 'file-saver';
 import { useDispatch } from 'react-redux';
 
@@ -39,7 +34,7 @@ export default function PostMenu({
 
   const downloadImages = async () => {
     images.map((img) => {
-      saveAs(img.url, 'image.jpg');
+      return saveAs(img.url, 'image.jpg');
     });
   };
 

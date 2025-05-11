@@ -16,7 +16,6 @@ export default function SearchMenu({ color, setShowSearchMenu }) {
   const userState = useSelector((state) => state.user);
   const token = userState?.token;
 
-  const { user } = useAppContext();
   const [iconVisible, setIconVisible] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
@@ -208,7 +207,7 @@ export default function SearchMenu({ color, setShowSearchMenu }) {
       {searchTerm === '' && !error && (
         <div className='search_history_header'>
           <span>Ostatnie wyszukiwania</span>
-          <a>Edytuj</a>
+          <a href='#'>Edytuj</a>
         </div>
       )}
 

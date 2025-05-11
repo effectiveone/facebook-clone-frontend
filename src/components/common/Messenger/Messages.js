@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Message from './Message';
-import { convertDateToHumanReadable } from '../../../utils/convertDate';
 
 const Messages = () => {
   const messages = useSelector((state) => state.chat.messages);
